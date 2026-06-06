@@ -1,325 +1,145 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VG CarInformation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarHub 🚗</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0a0f1c;
-color:white;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f1a;
+      color: white;
+    }
 
-/* TOP BAR */
-.topbar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:12px 20px;
-background:#111a2e;
-border-bottom:1px solid #1f2a44;
-position:sticky;
-top:0;
-}
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #15152a;
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-}
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.logo img{
-height:40px;
-}
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
 
-.logo span{
-font-size:18px;
-font-weight:bold;
-color:#4cc9f0;
-}
+    .car {
+      background: #1c1c33;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
 
-/* SEARCH */
-.search{
-padding:15px;
-text-align:center;
-}
+    .car:hover {
+      transform: scale(1.02);
+      background: #242444;
+    }
 
-.search input{
-width:90%;
-max-width:600px;
-padding:14px;
-border:none;
-border-radius:10px;
-outline:none;
-font-size:15px;
-}
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-/* FILTERS */
-.filters{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-padding:10px;
-}
+    .specs {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
 
-.filters input{
-padding:10px;
-border-radius:8px;
-border:none;
-width:140px;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:15px;
-padding:20px;
-}
-
-/* CARD */
-.card{
-background:#121c33;
-border:1px solid #1f2a44;
-border-radius:15px;
-overflow:hidden;
-cursor:pointer;
-transition:0.2s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-border-color:#4cc9f0;
-}
-
-.card img{
-width:100%;
-height:150px;
-object-fit:cover;
-}
-
-.card-body{
-padding:12px;
-}
-
-.title{
-color:#4cc9f0;
-font-size:15px;
-}
-
-.spec{
-font-size:13px;
-color:#cbd5e1;
-}
-
-/* MODAL */
-.modal{
-position:fixed;
-top:0;left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.modal-content{
-background:#111a2e;
-padding:20px;
-border-radius:15px;
-width:90%;
-max-width:600px;
-}
-
-.close{
-background:red;
-border:none;
-color:white;
-padding:8px 12px;
-cursor:pointer;
-float:right;
-}
-
-/* FAVORITE */
-.fav{
-cursor:pointer;
-float:right;
-font-size:18px;
-}
-</style>
-
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #4c6fff;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- TOP -->
-<div class="topbar">
-<div class="logo">
-<img src="/mnt/data/a_clean_vector_logo_branding_image_on_a_dark_backg.png">
-<span>VG CarInformation</span>
-</div>
-</div>
+<header>
+  🚗 CarHub - Bil database
+</header>
 
-<!-- SEARCH -->
-<div class="search">
-<input id="search" placeholder="Søg: BMW, Audi, Tesla...">
-</div>
+<div class="container">
 
-<!-- FILTER -->
-<div class="filters">
-<input id="hp" placeholder="Min HK">
-<input id="price" placeholder="Max pris">
-<input id="year" placeholder="Årgang">
-</div>
+  <input type="text" id="search" placeholder="Søg efter bil (fx BMW, Tesla, Audi...)">
 
-<!-- GRID -->
-<div class="grid" id="grid"></div>
+  <div id="carList"></div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content" id="modalContent"></div>
 </div>
 
 <script>
-const cars = [
-{
-id:1,
-brand:"BMW",
-model:"M3 Competition",
-year:2021,
-hp:510,
-price:1500000,
-img:"https://upload.wikimedia.org/wikipedia/commons/4/4f/BMW_M3_G80_IMG_4048.jpg"
-},
-{
-id:2,
-brand:"Audi",
-model:"RS6 Avant",
-year:2020,
-hp:600,
-price:2200000,
-img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Audi_RS6_Avant_C8.jpg"
-},
-{
-id:3,
-brand:"Tesla",
-model:"Model 3 Performance",
-year:2023,
-hp:513,
-price:450000,
-img:"https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_Model_3_parked%2C_front_driver_side.jpg"
-},
-{
-id:4,
-brand:"Mercedes",
-model:"C63 AMG",
-year:2019,
-hp:510,
-price:1600000,
-img:"https://upload.wikimedia.org/wikipedia/commons/6/6d/Mercedes-AMG_C63_S.jpg"
-},
-{
-id:5,
-brand:"VW",
-model:"Golf GTI",
-year:2022,
-hp:245,
-price:450000,
-img:"https://upload.wikimedia.org/wikipedia/commons/9/9a/VW_Golf_GTI_Mk8.jpg"
-},
-{
-id:6,
-brand:"Toyota",
-model:"GR Supra",
-year:2021,
-hp:340,
-price:900000,
-img:"https://upload.wikimedia.org/wikipedia/commons/7/7d/2019_Toyota_GR_Supra_3.0.jpg"
-}
-];
+  const cars = [
+    {
+      name: "Tesla Model 3",
+      hp: 450,
+      type: "Elbil",
+      speed: "0-100: 3.3s"
+    },
+    {
+      name: "BMW M3 Competition",
+      hp: 510,
+      type: "Benzin",
+      speed: "0-100: 3.9s"
+    },
+    {
+      name: "Audi RS5",
+      hp: 450,
+      type: "Benzin",
+      speed: "0-100: 4.1s"
+    },
+    {
+      name: "Mercedes C63 AMG",
+      hp: 476,
+      type: "Benzin",
+      speed: "0-100: 3.9s"
+    }
+  ];
 
-let favorites = JSON.parse(localStorage.getItem("fav")) || [];
+  const carList = document.getElementById("carList");
+  const search = document.getElementById("search");
 
-function render(list){
-const grid = document.getElementById("grid");
-grid.innerHTML = "";
+  function renderCars(filter = "") {
+    carList.innerHTML = "";
 
-list.forEach(c=>{
-grid.innerHTML += `
-<div class="card" onclick="openCar(${c.id})">
-<img src="${c.img}">
-<div class="card-body">
-<div class="title">
-${c.brand} ${c.model}
-<span class="fav" onclick="event.stopPropagation();toggleFav(${c.id})">
-${favorites.includes(c.id) ? "❤️" : "🤍"}
-</span>
-</div>
-<div class="spec">${c.year} • ${c.hp} HK • ${c.price.toLocaleString()} kr</div>
-</div>
-</div>
-`;
-});
-}
+    const filtered = cars.filter(car =>
+      car.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
-function openCar(id){
-const car = cars.find(c=>c.id===id);
+    filtered.forEach(car => {
+      carList.innerHTML += `
+        <div class="car">
+          <div class="title">${car.name}</div>
+          <div class="specs">⚡ ${car.hp} HP</div>
+          <div class="specs">⛽ Type: ${car.type}</div>
+          <div class="badge">${car.speed}</div>
+        </div>
+      `;
+    });
+  }
 
-document.getElementById("modalContent").innerHTML = `
-<button class="close" onclick="closeModal()">X</button>
-<h2>${car.brand} ${car.model}</h2>
-<img src="${car.img}" style="width:100%;border-radius:10px">
-<p>Årgang: ${car.year}</p>
-<p>HK: ${car.hp}</p>
-<p>Pris: ${car.price.toLocaleString()} kr</p>
-`;
+  search.addEventListener("input", (e) => {
+    renderCars(e.target.value);
+  });
 
-document.getElementById("modal").style.display="flex";
-}
-
-function closeModal(){
-document.getElementById("modal").style.display="none";
-}
-
-function toggleFav(id){
-if(favorites.includes(id)){
-favorites = favorites.filter(f=>f!==id);
-}else{
-favorites.push(id);
-}
-localStorage.setItem("fav", JSON.stringify(favorites));
-render(cars);
-}
-
-/* FILTER + SEARCH */
-function update(){
-const s = document.getElementById("search").value.toLowerCase();
-const hp = document.getElementById("hp").value;
-const price = document.getElementById("price").value;
-const year = document.getElementById("year").value;
-
-let filtered = cars.filter(c =>
-c.brand.toLowerCase().includes(s) ||
-c.model.toLowerCase().includes(s)
-);
-
-if(hp) filtered = filtered.filter(c=>c.hp >= hp);
-if(price) filtered = filtered.filter(c=>c.price <= price);
-if(year) filtered = filtered.filter(c=>c.year == year);
-
-render(filtered);
-}
-
-document.querySelectorAll("input").forEach(i=>{
-i.addEventListener("input", update);
-});
-
-render(cars);
+  renderCars();
 </script>
 
 </body>
