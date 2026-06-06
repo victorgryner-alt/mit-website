@@ -9,241 +9,165 @@
 body{
 margin:0;
 font-family:Arial;
-background:#0a0f1c;
+background:#0b1220;
 color:white;
 }
 
-/* TOP BAR */
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 25px;
+header{
+padding:20px;
+text-align:center;
 background:#111a2e;
 border-bottom:1px solid #1f2a44;
 }
 
-.logo{
-font-size:20px;
-font-weight:bold;
+h1{
 color:#4cc9f0;
+margin:0;
 }
 
-/* SEARCH */
-.searchBox{
-padding:20px;
-text-align:center;
-}
-
-.searchBox input{
-width:90%;
-max-width:600px;
-padding:15px;
-border:none;
-border-radius:10px;
-outline:none;
-font-size:16px;
-}
-
-/* FILTER BAR */
-.filters{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-padding:10px;
-}
-
-.filters input{
-padding:10px;
-border-radius:8px;
-border:none;
-width:140px;
-}
-
-/* GRID */
-.grid{
+.container{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:15px;
 padding:20px;
 }
 
-/* CARD */
 .card{
 background:#121c33;
-border:1px solid #1f2a44;
 border-radius:15px;
 overflow:hidden;
-cursor:pointer;
+border:1px solid #1f2a44;
 transition:0.2s;
 }
 
 .card:hover{
-transform:translateY(-5px);
+transform:scale(1.02);
 border-color:#4cc9f0;
 }
 
 .card img{
 width:100%;
-height:150px;
+height:160px;
 object-fit:cover;
 }
 
-.cardBody{
+.content{
 padding:12px;
 }
 
 .title{
 color:#4cc9f0;
 font-size:16px;
-margin-bottom:5px;
+margin-bottom:6px;
 }
 
-.small{
+.spec{
 font-size:13px;
 color:#cbd5e1;
+margin:3px 0;
 }
 
-/* DETAIL PAGE */
-#detailPage{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#0a0f1c;
-display:none;
-overflow:auto;
-padding:20px;
-}
-
-.closeBtn{
-background:red;
-color:white;
-border:none;
-padding:10px;
-cursor:pointer;
-margin-bottom:10px;
-}
-
-/* FAVORITES */
-.fav{
-float:right;
-cursor:pointer;
-}
-
-/* FOOTER BAR */
-.bottomBar{
-position:fixed;
-bottom:0;
-width:100%;
-background:#111a2e;
-padding:10px;
+footer{
 text-align:center;
-border-top:1px solid #1f2a44;
+padding:20px;
+color:#6b7a99;
+font-size:13px;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="topbar">
-<div class="logo">VG CarInformation</div>
-</div>
+<header>
+<h1>VG CarInformation</h1>
+<p>Rigtige biler med realistiske specifikationer</p>
+</header>
 
-<div class="searchBox">
-<input id="search" placeholder="Søg bil (BMW, Audi, Tesla...)">
-</div>
+<div class="container">
 
-<div class="filters">
-<input id="hp" placeholder="Min HK">
-<input id="price" placeholder="Max pris">
-<input id="year" placeholder="Årgang">
-</div>
-
-<div class="grid" id="grid"></div>
-
-<!-- DETAIL -->
-<div id="detailPage">
-<button class="closeBtn" onclick="closePage()">Luk</button>
-<div id="detailContent"></div>
-</div>
-
-<div class="bottomBar">
-VG CarInformation • Klik biler for detaljer • ❤️ Favoritter kommer snart online
-</div>
-
-<script>
-const cars = [
-{ id:1, brand:"BMW", model:"320d Touring", year:2020, hp:190, price:250000, img:"https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg" },
-{ id:2, brand:"Audi", model:"A4 Avant", year:2021, hp:204, price:310000, img:"https://cdn.pixabay.com/photo/2016/11/29/09/32/audi-1869736_1280.jpg" },
-{ id:3, brand:"Tesla", model:"Model 3", year:2023, hp:498, price:340000, img:"https://cdn.pixabay.com/photo/2019/06/14/08/26/tesla-4274574_1280.jpg" },
-{ id:4, brand:"VW", model:"Golf GTI", year:2022, hp:245, price:320000, img:"https://cdn.pixabay.com/photo/2018/05/08/21/29/vw-3380671_1280.jpg" },
-{ id:5, brand:"Mercedes", model:"C220d", year:2020, hp:194, price:280000, img:"https://cdn.pixabay.com/photo/2016/02/13/13/11/oldtimer-1197800_1280.jpg" }
-];
-
-let grid = document.getElementById("grid");
-
-function render(list){
-grid.innerHTML = "";
-list.forEach(c=>{
-grid.innerHTML += `
-<div class="card" onclick="openCar(${c.id})">
-<img src="${c.img}">
-<div class="cardBody">
-<div class="title">${c.brand} ${c.model}</div>
-<div class="small">${c.year} • ${c.hp} HK • ${c.price} kr</div>
+<!-- BMW M3 -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/BMW_M3_G80_IMG_4048.jpg">
+<div class="content">
+<div class="title">BMW M3 Competition (G80)</div>
+<div class="spec">🚗 2021–nu</div>
+<div class="spec">⚡ 510 HK</div>
+<div class="spec">🔧 650 Nm</div>
+<div class="spec">🏁 0-100 km/t: 3.9 sek</div>
+<div class="spec">💰 Nypris: ~1.5 mio kr</div>
 </div>
 </div>
-`;
-});
-}
 
-/* DETAIL */
-function openCar(id){
-const car = cars.find(c=>c.id===id);
+<!-- Audi RS6 -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Audi_RS6_Avant_C8.jpg">
+<div class="content">
+<div class="title">Audi RS6 Avant</div>
+<div class="spec">🚗 2020–nu</div>
+<div class="spec">⚡ 600 HK</div>
+<div class="spec">🔧 800 Nm</div>
+<div class="spec">🏁 0-100 km/t: 3.6 sek</div>
+<div class="spec">💰 Nypris: ~2.2 mio kr</div>
+</div>
+</div>
 
-document.getElementById("detailContent").innerHTML = `
-<h2>${car.brand} ${car.model}</h2>
-<img src="${car.img}" style="width:100%;border-radius:10px">
-<p>Årgang: ${car.year}</p>
-<p>HK: ${car.hp}</p>
-<p>Pris: ${car.price} kr</p>
-<p>Top: (kommer senere med API)</p>
-`;
+<!-- Tesla Model 3 -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_Model_3_parked%2C_front_driver_side.jpg">
+<div class="content">
+<div class="title">Tesla Model 3 Performance</div>
+<div class="spec">🚗 2019–nu</div>
+<div class="spec">⚡ 513 HK (el)</div>
+<div class="spec">🔋 AWD</div>
+<div class="spec">🏁 0-100 km/t: 3.3 sek</div>
+<div class="spec">💰 Nypris: ~450.000 kr</div>
+</div>
+</div>
 
-document.getElementById("detailPage").style.display="block";
-}
+<!-- Mercedes C63 -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Mercedes-AMG_C63_S.jpg">
+<div class="content">
+<div class="title">Mercedes-AMG C63 S</div>
+<div class="spec">🚗 2018–2023</div>
+<div class="spec">⚡ 510 HK</div>
+<div class="spec">🔧 V8 Biturbo</div>
+<div class="spec">🏁 0-100 km/t: 3.9 sek</div>
+<div class="spec">💰 Nypris: ~1.6 mio kr</div>
+</div>
+</div>
 
-function closePage(){
-document.getElementById("detailPage").style.display="none";
-}
+<!-- VW Golf GTI -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/VW_Golf_GTI_Mk8.jpg">
+<div class="content">
+<div class="title">Volkswagen Golf GTI</div>
+<div class="spec">🚗 2020–nu</div>
+<div class="spec">⚡ 245 HK</div>
+<div class="spec">🔧 370 Nm</div>
+<div class="spec">🏁 0-100 km/t: 6.2 sek</div>
+<div class="spec">💰 Nypris: ~450.000 kr</div>
+</div>
+</div>
 
-/* SEARCH + FILTER */
-function update(){
-const s = document.getElementById("search").value.toLowerCase();
-const hp = document.getElementById("hp").value;
-const price = document.getElementById("price").value;
-const year = document.getElementById("year").value;
+<!-- Toyota Supra -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/2019_Toyota_GR_Supra_3.0.jpg">
+<div class="content">
+<div class="title">Toyota GR Supra</div>
+<div class="spec">🚗 2019–nu</div>
+<div class="spec">⚡ 340 HK</div>
+<div class="spec">🔧 500 Nm</div>
+<div class="spec">🏁 0-100 km/t: 4.3 sek</div>
+<div class="spec">💰 Nypris: ~900.000 kr</div>
+</div>
+</div>
 
-let filtered = cars.filter(c =>
-c.brand.toLowerCase().includes(s) ||
-c.model.toLowerCase().includes(s)
-);
+</div>
 
-if(hp) filtered = filtered.filter(c=>c.hp >= hp);
-if(price) filtered = filtered.filter(c=>c.price <= price);
-if(year) filtered = filtered.filter(c=>c.year == year);
-
-render(filtered);
-}
-
-document.querySelectorAll("input").forEach(i=>{
-i.addEventListener("input", update);
-});
-
-render(cars);
-</script>
+<footer>
+VG CarInformation • HTML prototype • 2026
+</footer>
 
 </body>
 </html>
