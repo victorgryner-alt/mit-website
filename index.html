@@ -1,160 +1,248 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VG CarInformation</title>
 
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background:#0b1220;
-    color:white;
+margin:0;
+font-family:Arial;
+background:#0a0f1c;
+color:white;
 }
 
-header{
-    padding:25px;
-    text-align:center;
-    background:#111a2e;
-    border-bottom:1px solid #1f2a44;
+/* TOP BAR */
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 25px;
+background:#111a2e;
+border-bottom:1px solid #1f2a44;
 }
 
-header h1{
-    margin:0;
-    font-size:32px;
-    color:#4cc9f0;
+.logo{
+font-size:20px;
+font-weight:bold;
+color:#4cc9f0;
 }
 
-header p{
-    color:#9aa7bd;
-    margin-top:5px;
+/* SEARCH */
+.searchBox{
+padding:20px;
+text-align:center;
 }
 
-.search{
-    text-align:center;
-    margin:20px;
+.searchBox input{
+width:90%;
+max-width:600px;
+padding:15px;
+border:none;
+border-radius:10px;
+outline:none;
+font-size:16px;
 }
 
-.search input{
-    width:90%;
-    max-width:500px;
-    padding:15px;
-    border-radius:10px;
-    border:none;
-    outline:none;
-    font-size:16px;
+/* FILTER BAR */
+.filters{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+padding:10px;
 }
 
-.container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:20px;
-    padding:20px;
+.filters input{
+padding:10px;
+border-radius:8px;
+border:none;
+width:140px;
 }
 
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:15px;
+padding:20px;
+}
+
+/* CARD */
 .card{
-    background:#121c33;
-    padding:15px;
-    border-radius:15px;
-    border:1px solid #1f2a44;
-    transition:0.3s;
+background:#121c33;
+border:1px solid #1f2a44;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:0.2s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
-    border-color:#4cc9f0;
+transform:translateY(-5px);
+border-color:#4cc9f0;
 }
 
-.car-title{
-    font-size:18px;
-    margin-bottom:10px;
-    color:#4cc9f0;
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
 }
 
-.spec{
-    font-size:14px;
-    color:#cbd5e1;
-    margin:4px 0;
+.cardBody{
+padding:12px;
 }
 
-.badge{
-    display:inline-block;
-    padding:4px 8px;
-    background:#1f2a44;
-    border-radius:6px;
-    font-size:12px;
-    margin-top:8px;
+.title{
+color:#4cc9f0;
+font-size:16px;
+margin-bottom:5px;
 }
 
-footer{
-    text-align:center;
-    padding:20px;
-    color:#6b7a99;
-    font-size:13px;
+.small{
+font-size:13px;
+color:#cbd5e1;
+}
+
+/* DETAIL PAGE */
+#detailPage{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#0a0f1c;
+display:none;
+overflow:auto;
+padding:20px;
+}
+
+.closeBtn{
+background:red;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+/* FAVORITES */
+.fav{
+float:right;
+cursor:pointer;
+}
+
+/* FOOTER BAR */
+.bottomBar{
+position:fixed;
+bottom:0;
+width:100%;
+background:#111a2e;
+padding:10px;
+text-align:center;
+border-top:1px solid #1f2a44;
 }
 </style>
+
 </head>
 
 <body>
 
-<header>
-    <h1>VG CarInformation</h1>
-    <p>Søg blandt biler – HK, topfart, værdi og specs</p>
-</header>
-
-<div class="search">
-    <input id="searchInput" placeholder="Søg fx BMW, Audi, Tesla..." />
+<div class="topbar">
+<div class="logo">VG CarInformation</div>
 </div>
 
-<div class="container" id="carContainer"></div>
+<div class="searchBox">
+<input id="search" placeholder="Søg bil (BMW, Audi, Tesla...)">
+</div>
 
-<footer>
-    VG CarInformation © 2026
-</footer>
+<div class="filters">
+<input id="hp" placeholder="Min HK">
+<input id="price" placeholder="Max pris">
+<input id="year" placeholder="Årgang">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- DETAIL -->
+<div id="detailPage">
+<button class="closeBtn" onclick="closePage()">Luk</button>
+<div id="detailContent"></div>
+</div>
+
+<div class="bottomBar">
+VG CarInformation • Klik biler for detaljer • ❤️ Favoritter kommer snart online
+</div>
 
 <script>
 const cars = [
-    {brand:"BMW", model:"320d Touring", year:2020, hp:190, top:230, torque:400, value:250000},
-    {brand:"Audi", model:"A4 Avant", year:2021, hp:204, top:240, torque:400, value:310000},
-    {brand:"Tesla", model:"Model 3 Long Range", year:2023, hp:498, top:233, torque:660, value:340000},
-    {brand:"Mercedes-Benz", model:"C220d", year:2020, hp:194, top:240, torque:400, value:280000},
-    {brand:"Volkswagen", model:"Golf GTI", year:2022, hp:245, top:250, torque:370, value:320000},
-    {brand:"Toyota", model:"Corolla Hybrid", year:2021, hp:184, top:180, torque:190, value:210000},
-    {brand:"Ford", model:"Focus ST", year:2020, hp:280, top:250, torque:420, value:270000},
-    {brand:"Volvo", model:"V60 D4", year:2019, hp:190, top:220, torque:400, value:230000}
+{ id:1, brand:"BMW", model:"320d Touring", year:2020, hp:190, price:250000, img:"https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg" },
+{ id:2, brand:"Audi", model:"A4 Avant", year:2021, hp:204, price:310000, img:"https://cdn.pixabay.com/photo/2016/11/29/09/32/audi-1869736_1280.jpg" },
+{ id:3, brand:"Tesla", model:"Model 3", year:2023, hp:498, price:340000, img:"https://cdn.pixabay.com/photo/2019/06/14/08/26/tesla-4274574_1280.jpg" },
+{ id:4, brand:"VW", model:"Golf GTI", year:2022, hp:245, price:320000, img:"https://cdn.pixabay.com/photo/2018/05/08/21/29/vw-3380671_1280.jpg" },
+{ id:5, brand:"Mercedes", model:"C220d", year:2020, hp:194, price:280000, img:"https://cdn.pixabay.com/photo/2016/02/13/13/11/oldtimer-1197800_1280.jpg" }
 ];
 
-const container = document.getElementById("carContainer");
-const searchInput = document.getElementById("searchInput");
+let grid = document.getElementById("grid");
 
-function showCars(list){
-    container.innerHTML = "";
-    list.forEach(car=>{
-        container.innerHTML += `
-        <div class="card">
-            <div class="car-title">${car.brand} ${car.model}</div>
-            <div class="spec">🚗 Årgang: ${car.year}</div>
-            <div class="spec">⚡ HK: ${car.hp}</div>
-            <div class="spec">🏁 Topfart: ${car.top} km/t</div>
-            <div class="spec">🔧 Moment: ${car.torque} Nm</div>
-            <div class="spec">💰 Værdi: ${car.value.toLocaleString()} kr.</div>
-            <div class="badge">VG CarInformation</div>
-        </div>
-        `;
-    });
+function render(list){
+grid.innerHTML = "";
+list.forEach(c=>{
+grid.innerHTML += `
+<div class="card" onclick="openCar(${c.id})">
+<img src="${c.img}">
+<div class="cardBody">
+<div class="title">${c.brand} ${c.model}</div>
+<div class="small">${c.year} • ${c.hp} HK • ${c.price} kr</div>
+</div>
+</div>
+`;
+});
 }
 
-searchInput.addEventListener("input", (e)=>{
-    const value = e.target.value.toLowerCase();
-    const filtered = cars.filter(c =>
-        c.brand.toLowerCase().includes(value) ||
-        c.model.toLowerCase().includes(value)
-    );
-    showCars(filtered);
+/* DETAIL */
+function openCar(id){
+const car = cars.find(c=>c.id===id);
+
+document.getElementById("detailContent").innerHTML = `
+<h2>${car.brand} ${car.model}</h2>
+<img src="${car.img}" style="width:100%;border-radius:10px">
+<p>Årgang: ${car.year}</p>
+<p>HK: ${car.hp}</p>
+<p>Pris: ${car.price} kr</p>
+<p>Top: (kommer senere med API)</p>
+`;
+
+document.getElementById("detailPage").style.display="block";
+}
+
+function closePage(){
+document.getElementById("detailPage").style.display="none";
+}
+
+/* SEARCH + FILTER */
+function update(){
+const s = document.getElementById("search").value.toLowerCase();
+const hp = document.getElementById("hp").value;
+const price = document.getElementById("price").value;
+const year = document.getElementById("year").value;
+
+let filtered = cars.filter(c =>
+c.brand.toLowerCase().includes(s) ||
+c.model.toLowerCase().includes(s)
+);
+
+if(hp) filtered = filtered.filter(c=>c.hp >= hp);
+if(price) filtered = filtered.filter(c=>c.price <= price);
+if(year) filtered = filtered.filter(c=>c.year == year);
+
+render(filtered);
+}
+
+document.querySelectorAll("input").forEach(i=>{
+i.addEventListener("input", update);
 });
 
-showCars(cars);
+render(cars);
 </script>
 
 </body>
