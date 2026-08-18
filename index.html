@@ -1,146 +1,1365 @@
+# `index.html`
+
+```html
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarHub 🚗</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisor Academy</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f1a;
-      color: white;
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #080b12;
+    --card: #111621;
+    --card2: #151b28;
+    --border: #242c3b;
+    --text: #f5f7fb;
+    --muted: #8993a5;
+    --green: #42e6a4;
+    --blue: #5d8cff;
+    --purple: #9b6cff;
+    --red: #ff5d70;
+    --yellow: #ffd45c;
+}
+
+body {
+    font-family: Inter, Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 0%, rgba(93,140,255,.12), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(66,230,164,.08), transparent 25%),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button {
+    font-family: inherit;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: rgba(12,16,25,.92);
+    border-right: 1px solid var(--border);
+    padding: 25px 15px;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 30px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    color: #07100d;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.logo h1 {
+    font-size: 18px;
+}
+
+.logo span {
+    color: var(--green);
+}
+
+.nav-title {
+    color: #596477;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 0 12px 10px;
+    text-transform: uppercase;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav button {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 12px;
+    border-radius: 11px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: #192131;
+    color: white;
+}
+
+.nav button.active {
+    box-shadow: inset 3px 0 var(--green);
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+}
+
+.mini-level {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.mini-level-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.progress {
+    height: 7px;
+    background: #252d3b;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 20px;
+    transition: width .4s;
+}
+
+/* MAIN */
+
+main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 35px;
+    max-width: 1500px;
+}
+
+.page {
+    display: none;
+    animation: fade .25s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h2 {
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+.header p {
+    color: var(--muted);
+}
+
+.level-badge {
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: rgba(66,230,164,.08);
+    border: 1px solid rgba(66,230,164,.2);
+    color: var(--green);
+    font-weight: 800;
+}
+
+/* CARDS */
+
+.grid {
+    display: grid;
+    gap: 18px;
+}
+
+.stats {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+    background: linear-gradient(145deg, rgba(20,26,38,.95), rgba(13,18,27,.95));
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 20px;
+}
+
+.stat-card {
+    min-height: 130px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stat-value {
+    font-size: 30px;
+    font-weight: 900;
+    margin-top: 12px;
+}
+
+.stat-green { color: var(--green); }
+.stat-blue { color: var(--blue); }
+.stat-yellow { color: var(--yellow); }
+.stat-purple { color: var(--purple); }
+
+/* DASHBOARD */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.card-title h3 {
+    font-size: 17px;
+}
+
+.card-title span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.daily {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px;
+    border-radius: 12px;
+    background: #171e2b;
+}
+
+.task-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: #202a3a;
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.task-info small {
+    color: var(--muted);
+}
+
+.check {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    border: 1px solid #3b4556;
+    cursor: pointer;
+    background: transparent;
+    color: transparent;
+}
+
+.check.done {
+    background: var(--green);
+    border-color: var(--green);
+    color: #06110d;
+}
+
+/* LEARNING */
+
+.learning-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.lesson {
+    cursor: pointer;
+    transition: .2s;
+}
+
+.lesson:hover {
+    transform: translateY(-4px);
+    border-color: #3a465d;
+}
+
+.lesson-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    margin-bottom: 18px;
+    background: #1c2534;
+}
+
+.lesson h3 {
+    margin-bottom: 8px;
+}
+
+.lesson p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.lesson-progress {
+    margin-top: 18px;
+}
+
+.lesson-footer {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+/* QUIZ */
+
+.quiz-box {
+    max-width: 850px;
+    margin: auto;
+}
+
+.question-number {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.question {
+    font-size: 25px;
+    line-height: 1.4;
+    margin-bottom: 25px;
+}
+
+.answers {
+    display: grid;
+    gap: 12px;
+}
+
+.answer {
+    padding: 17px;
+    border: 1px solid var(--border);
+    background: #121925;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.answer:hover {
+    border-color: var(--blue);
+    background: #172033;
+}
+
+.answer.correct {
+    border-color: var(--green);
+    background: rgba(66,230,164,.1);
+}
+
+.answer.wrong {
+    border-color: var(--red);
+    background: rgba(255,93,112,.1);
+}
+
+.quiz-result {
+    text-align: center;
+    padding: 40px;
+}
+
+.big-score {
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--green);
+}
+
+/* BUTTON */
+
+.btn {
+    border: 0;
+    background: linear-gradient(135deg, var(--green), #39c992);
+    color: #06110d;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.btn.secondary {
+    background: #202938;
+    color: white;
+}
+
+/* DEBIT CREDIT */
+
+.account {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.account-box {
+    background: #151c28;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.account-box h3 {
+    margin-bottom: 15px;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px;
+    background: #101620;
+    border-radius: 9px;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0d131d;
+    color: white;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--blue);
+}
+
+/* ACHIEVEMENTS */
+
+.achievements {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.achievement-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    background: #202938;
+}
+
+.achievement.locked {
+    opacity: .4;
+}
+
+.achievement p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* MOBILE */
+
+.mobile-menu {
+    display: none;
+}
+
+@media(max-width: 1000px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background: #15152a;
-      font-size: 24px;
-      font-weight: bold;
+    .dashboard-grid,
+    .learning-grid,
+    .achievements {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .3s;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
+    .sidebar.open {
+        transform: translateX(0);
     }
 
-    input {
-      width: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      margin-bottom: 20px;
+    main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
     }
 
-    .car {
-      background: #1c1c33;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      transition: 0.3s;
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 20;
+        background: #161d2a;
+        color: white;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 13px;
+        cursor: pointer;
     }
 
-    .car:hover {
-      transform: scale(1.02);
-      background: #242444;
+    .header {
+        padding-top: 45px;
     }
 
-    .title {
-      font-size: 18px;
-      font-weight: bold;
+    .header h2 {
+        font-size: 24px;
     }
 
-    .specs {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-top: 5px;
+    .stats {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      background: #4c6fff;
-      border-radius: 6px;
-      font-size: 12px;
-      margin-top: 8px;
+    .stat-value {
+        font-size: 23px;
     }
-  </style>
+
+    .account {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  🚗 CarHub - Bil database
-</header>
+<button class="mobile-menu" onclick="toggleMenu()">☰</button>
 
-<div class="container">
+<div class="app">
 
-  <input type="text" id="search" placeholder="Søg efter bil (fx BMW, Tesla, Audi...)">
+<aside class="sidebar" id="sidebar">
 
-  <div id="carList"></div>
+    <div class="logo">
+        <div class="logo-icon">R</div>
+        <h1>Revisor<span>Academy</span></h1>
+    </div>
+
+    <div class="nav-title">Træning</div>
+
+    <div class="nav">
+        <button class="active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+        <button onclick="showPage('learning', this)">📚 Læring</button>
+        <button onclick="showPage('quiz', this)">🧠 Quiz</button>
+        <button onclick="showPage('accounting', this)">💰 Debet & Kredit</button>
+        <button onclick="showPage('achievements', this)">🏆 Achievements</button>
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="mini-level">
+            <div class="mini-level-top">
+                <strong id="sideLevel">Level 1</strong>
+                <span id="sideXP">0 XP</span>
+            </div>
+            <div class="progress">
+                <div id="sideProgress" style="width:0%"></div>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+<main>
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+<div class="header">
+    <div>
+        <h2>Hej, kommende revisor 👋</h2>
+        <p>Træn lidt hver dag og byg dine færdigheder op.</p>
+    </div>
+    <div class="level-badge" id="levelBadge">⭐ Level 1</div>
+</div>
+
+<div class="grid stats">
+
+    <div class="card stat-card">
+        <div class="stat-label">Samlet XP</div>
+        <div class="stat-value stat-green" id="xp">0</div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-label">Quiz-score</div>
+        <div class="stat-value stat-blue" id="quizScore">0%</div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-label">Dage i træk</div>
+        <div class="stat-value stat-yellow" id="streak">1 🔥</div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-label">Gennemførte opgaver</div>
+        <div class="stat-value stat-purple" id="completed">0</div>
+    </div>
 
 </div>
 
-<script>
-  const cars = [
-    {
-      name: "Tesla Model 3",
-      hp: 450,
-      type: "Elbil",
-      speed: "0-100: 3.3s"
-    },
-    {
-      name: "BMW M3 Competition",
-      hp: 510,
-      type: "Benzin",
-      speed: "0-100: 3.9s"
-    },
-    {
-      name: "Audi RS5",
-      hp: 450,
-      type: "Benzin",
-      speed: "0-100: 4.1s"
-    },
-    {
-      name: "Mercedes C63 AMG",
-      hp: 476,
-      type: "Benzin",
-      speed: "0-100: 3.9s"
-    }
-  ];
+<div class="dashboard-grid">
 
-  const carList = document.getElementById("carList");
-  const search = document.getElementById("search");
+<div class="card">
+    <div class="card-title">
+        <h3>🎯 Dagens træning</h3>
+        <span>+ XP</span>
+    </div>
 
-  function renderCars(filter = "") {
-    carList.innerHTML = "";
+    <div class="daily">
 
-    const filtered = cars.filter(car =>
-      car.name.toLowerCase().includes(filter.toLowerCase())
-    );
-
-    filtered.forEach(car => {
-      carList.innerHTML += `
-        <div class="car">
-          <div class="title">${car.name}</div>
-          <div class="specs">⚡ ${car.hp} HP</div>
-          <div class="specs">⛽ Type: ${car.type}</div>
-          <div class="badge">${car.speed}</div>
+        <div class="task">
+            <div class="task-icon">📖</div>
+            <div class="task-info">
+                <strong>Lær 5 økonomiske begreber</strong>
+                <small>+25 XP</small>
+            </div>
+            <button class="check" onclick="completeTask(this,25)">✓</button>
         </div>
-      `;
+
+        <div class="task">
+            <div class="task-icon">🧠</div>
+            <div class="task-info">
+                <strong>Tag dagens quiz</strong>
+                <small>+50 XP</small>
+            </div>
+            <button class="check" onclick="goQuiz()">→</button>
+        </div>
+
+        <div class="task">
+            <div class="task-icon">💰</div>
+            <div class="task-info">
+                <strong>Øv debet og kredit</strong>
+                <small>+35 XP</small>
+            </div>
+            <button class="check" onclick="showPage('accounting')">→</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+        <h3>📈 Din udvikling</h3>
+        <span>Level progression</span>
+    </div>
+
+    <h3 id="levelText">Level 1</h3>
+
+    <div style="height:18px"></div>
+
+    <div class="progress">
+        <div id="mainProgress" style="width:0%"></div>
+    </div>
+
+    <p style="color:var(--muted);margin-top:12px;font-size:13px" id="xpNeeded">
+        100 XP til næste level
+    </p>
+
+    <div style="height:20px"></div>
+
+    <button class="btn" onclick="showPage('learning')">
+        Start træning →
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LEARNING -->
+
+<section class="page" id="learning">
+
+<div class="header">
+    <div>
+        <h2>Læring 📚</h2>
+        <p>Byg fundamentet for at blive en dygtig revisor.</p>
+    </div>
+</div>
+
+<div class="grid learning-grid">
+
+<div class="card lesson" onclick="learn('Regnskab',25)">
+    <div class="lesson-icon">📒</div>
+    <h3>Grundlæggende regnskab</h3>
+    <p>Lær hvordan indtægter, udgifter, aktiver og passiver fungerer.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:35%"></div></div>
+        <div class="lesson-footer">
+            <span>Begynder</span>
+            <span>35%</span>
+        </div>
+    </div>
+</div>
+
+<div class="card lesson" onclick="learn('Debet & Kredit',25)">
+    <div class="lesson-icon">⚖️</div>
+    <h3>Debet & Kredit</h3>
+    <p>Forstå hvordan økonomiske transaktioner registreres korrekt.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:20%"></div></div>
+        <div class="lesson-footer">
+            <span>Begynder</span>
+            <span>20%</span>
+        </div>
+    </div>
+</div>
+
+<div class="card lesson" onclick="learn('Budgetter',25)">
+    <div class="lesson-icon">📊</div>
+    <h3>Budgetter</h3>
+    <p>Lær at forstå og analysere budgetter for virksomheder.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:10%"></div></div>
+        <div class="lesson-footer">
+            <span>Begynder</span>
+            <span>10%</span>
+        </div>
+    </div>
+</div>
+
+<div class="card lesson" onclick="learn('Revision',30)">
+    <div class="lesson-icon">🔎</div>
+    <h3>Revision</h3>
+    <p>Træn hvordan en revisor undersøger et regnskab og finder fejl.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:5%"></div></div>
+        <div class="lesson-footer">
+            <span>Avanceret</span>
+            <span>5%</span>
+        </div>
+    </div>
+</div>
+
+<div class="card lesson" onclick="learn('Skat',30)">
+    <div class="lesson-icon">🏦</div>
+    <h3>Skat & moms</h3>
+    <p>Få styr på grundlæggende skat, moms og økonomiske regler.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:5%"></div></div>
+        <div class="lesson-footer">
+            <span>Mellem</span>
+            <span>5%</span>
+        </div>
+    </div>
+</div>
+
+<div class="card lesson" onclick="learn('Analyse',35)">
+    <div class="lesson-icon">📈</div>
+    <h3>Regnskabsanalyse</h3>
+    <p>Lær at kigge på tal og finde ud af, hvordan en virksomhed klarer sig.</p>
+    <div class="lesson-progress">
+        <div class="progress"><div style="width:0%"></div></div>
+        <div class="lesson-footer">
+            <span>Avanceret</span>
+            <span>0%</span>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</section>
+
+<!-- QUIZ -->
+
+<section class="page" id="quiz">
+
+<div class="header">
+    <div>
+        <h2>Revisor Quiz 🧠</h2>
+        <p>Test hvad du har lært.</p>
+    </div>
+</div>
+
+<div class="card quiz-box" id="quizBox"></div>
+
+</section>
+
+<!-- ACCOUNTING -->
+
+<section class="page" id="accounting">
+
+<div class="header">
+    <div>
+        <h2>Debet & Kredit 💰</h2>
+        <p>Træn den vigtigste grundregel i bogføring.</p>
+    </div>
+</div>
+
+<div class="card">
+
+    <h3 style="margin-bottom:10px">Øvelse</h3>
+
+    <p style="color:var(--muted);line-height:1.7;margin-bottom:20px">
+        En virksomhed køber en computer for 8.000 kr. og betaler direkte fra banken.
+        Hvor skal beløbet registreres?
+    </p>
+
+    <div class="account">
+
+        <div class="account-box">
+            <h3>📥 Debet</h3>
+            <input id="debitInput" type="number" placeholder="Beløb i kr.">
+        </div>
+
+        <div class="account-box">
+            <h3>📤 Kredit</h3>
+            <input id="creditInput" type="number" placeholder="Beløb i kr.">
+        </div>
+
+    </div>
+
+    <div style="margin-top:20px">
+        <button class="btn" onclick="checkAccounting()">Tjek svar</button>
+    </div>
+
+    <div id="accountResult" style="margin-top:18px"></div>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+
+<h3 style="margin-bottom:12px">💡 Huskeregel</h3>
+
+<p style="color:var(--muted);line-height:1.8">
+Debet og kredit skal altid gå op. Når du bogfører en transaktion,
+skal summen af debet være lig med summen af kredit.
+</p>
+
+</div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+
+<section class="page" id="achievements">
+
+<div class="header">
+    <div>
+        <h2>Achievements 🏆</h2>
+        <p>Kan du samle dem alle?</p>
+    </div>
+</div>
+
+<div class="grid achievements">
+
+<div class="card achievement">
+    <div class="achievement-icon">🚀</div>
+    <div>
+        <strong>Første skridt</strong>
+        <p>Få din første XP.</p>
+    </div>
+</div>
+
+<div class="card achievement">
+    <div class="achievement-icon">🧠</div>
+    <div>
+        <strong>Quiz Master</strong>
+        <p>Få 100% i en quiz.</p>
+    </div>
+</div>
+
+<div class="card achievement">
+    <div class="achievement-icon">💰</div>
+    <div>
+        <strong>Bogholder</strong>
+        <p>Løs din første debet/kredit-opgave.</p>
+    </div>
+</div>
+
+<div class="card achievement">
+    <div class="achievement-icon">🔥</div>
+    <div>
+        <strong>7 Day Streak</strong>
+        <p>Træn 7 dage i træk.</p>
+    </div>
+</div>
+
+<div class="card achievement">
+    <div class="achievement-icon">📚</div>
+    <div>
+        <strong>Knowledge Seeker</strong>
+        <p>Gennemfør 5 læringsområder.</p>
+    </div>
+</div>
+
+<div class="card achievement locked">
+    <div class="achievement-icon">👑</div>
+    <div>
+        <strong>Revisor Elite</strong>
+        <p>Opnå Level 10.</p>
+    </div>
+</div>
+
+</div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+
+/* =========================
+   SAVE DATA
+========================= */
+
+let data = JSON.parse(localStorage.getItem("revisorAcademy")) || {
+    xp: 0,
+    completed: 0,
+    quizCorrect: 0,
+    quizTotal: 0,
+    streak: 1
+};
+
+function save() {
+    localStorage.setItem("revisorAcademy", JSON.stringify(data));
+    updateUI();
+}
+
+/* =========================
+   LEVEL SYSTEM
+========================= */
+
+function getLevel() {
+    return Math.floor(data.xp / 100) + 1;
+}
+
+function getLevelProgress() {
+    return data.xp % 100;
+}
+
+function addXP(amount) {
+    data.xp += amount;
+    data.completed++;
+
+    save();
+
+    if (amount > 0) {
+        alert("🎉 +" + amount + " XP!");
+    }
+}
+
+function updateUI() {
+
+    let level = getLevel();
+    let progress = getLevelProgress();
+
+    document.getElementById("xp").textContent = data.xp;
+    document.getElementById("completed").textContent = data.completed;
+    document.getElementById("streak").textContent = data.streak + " 🔥";
+
+    let percentage =
+        data.quizTotal === 0
+        ? 0
+        : Math.round((data.quizCorrect / data.quizTotal) * 100);
+
+    document.getElementById("quizScore").textContent = percentage + "%";
+
+    document.getElementById("levelBadge").textContent = "⭐ Level " + level;
+    document.getElementById("levelText").textContent = "Level " + level;
+
+    document.getElementById("mainProgress").style.width =
+        progress + "%";
+
+    document.getElementById("sideProgress").style.width =
+        progress + "%";
+
+    document.getElementById("sideLevel").textContent =
+        "Level " + level;
+
+    document.getElementById("sideXP").textContent =
+        data.xp + " XP";
+
+    document.getElementById("xpNeeded").textContent =
+        (100 - progress) + " XP til næste level";
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(id, button) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
     });
-  }
 
-  search.addEventListener("input", (e) => {
-    renderCars(e.target.value);
-  });
+    document.getElementById(id).classList.add("active");
 
-  renderCars();
+    document.querySelectorAll(".nav button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    if (id === "quiz") {
+        startQuiz();
+    }
+}
+
+function toggleMenu() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+function goQuiz() {
+    showPage("quiz");
+}
+
+/* =========================
+   DAILY TASK
+========================= */
+
+function completeTask(button, xp) {
+
+    if (button.classList.contains("done")) return;
+
+    button.classList.add("done");
+
+    addXP(xp);
+}
+
+/* =========================
+   LEARNING
+========================= */
+
+function learn(name, xp) {
+
+    addXP(xp);
+
+    alert(
+        "📚 " + name +
+        "\\n\\nGodt arbejde! Du har gennemført træningen i dette område."
+    );
+}
+
+/* =========================
+   QUIZ
+========================= */
+
+const questions = [
+
+{
+    q: "Hvad er et aktiv?",
+    answers: [
+        "Noget virksomheden ejer eller har til gode",
+        "En udgift",
+        "Virksomhedens gæld",
+        "En skat"
+    ],
+    correct: 0
+},
+
+{
+    q: "Hvad skal debet og kredit normalt være?",
+    answers: [
+        "Debet skal altid være større",
+        "Kredit skal altid være større",
+        "De skal være lige store",
+        "Det er ligegyldigt"
+    ],
+    correct: 2
+},
+
+{
+    q: "Hvad er en omsætning?",
+    answers: [
+        "Virksomhedens samlede salg",
+        "Virksomhedens gæld",
+        "Virksomhedens skat",
+        "Virksomhedens løn"
+    ],
+    correct: 0
+},
+
+{
+    q: "Hvad bruges et årsregnskab blandt andet til?",
+    answers: [
+        "At vise virksomhedens økonomiske situation",
+        "At lave reklamer",
+        "At ansætte medarbejdere",
+        "At bestille varer"
+    ],
+    correct: 0
+},
+
+{
+    q: "Hvad undersøger en revisor?",
+    answers: [
+        "Om regnskabet og de relevante oplysninger er korrekte",
+        "Kun virksomhedens logo",
+        "Kun medarbejdernes arbejdstider",
+        "Kun virksomhedens hjemmeside"
+    ],
+    correct: 0
+}
+
+];
+
+let currentQuestion = 0;
+let currentQuizScore = 0;
+
+function startQuiz() {
+
+    currentQuestion = 0;
+    currentQuizScore = 0;
+
+    renderQuestion();
+}
+
+function renderQuestion() {
+
+    let box = document.getElementById("quizBox");
+
+    if (currentQuestion >= questions.length) {
+
+        let percentage =
+            Math.round(
+                (currentQuizScore / questions.length) * 100
+            );
+
+        data.quizCorrect += currentQuizScore;
+        data.quizTotal += questions.length;
+
+        if (percentage === 100) {
+            data.xp += 100;
+        } else {
+            data.xp += currentQuizScore * 15;
+        }
+
+        save();
+
+        box.innerHTML = `
+            <div class="quiz-result">
+                <div style="font-size:40px">🎉</div>
+
+                <h2 style="margin:15px 0">
+                    Quiz færdig!
+                </h2>
+
+                <div class="big-score">
+                    ${percentage}%
+                </div>
+
+                <p style="color:var(--muted);margin:15px 0 25px">
+                    Du fik ${currentQuizScore} ud af ${questions.length} rigtige.
+                </p>
+
+                <button class="btn" onclick="startQuiz()">
+                    Prøv igen
+                </button>
+            </div>
+        `;
+
+        return;
+    }
+
+    let question = questions[currentQuestion];
+
+    box.innerHTML = `
+        <div class="question-number">
+            SPØRGSMÅL ${currentQuestion + 1} / ${questions.length}
+        </div>
+
+        <div class="question">
+            ${question.q}
+        </div>
+
+        <div class="answers">
+            ${question.answers.map((answer, index) => `
+                <button class="answer"
+                    onclick="answerQuiz(${index}, this)">
+                    ${answer}
+                </button>
+            `).join("")}
+        </div>
+    `;
+}
+
+function answerQuiz(index, button) {
+
+    let question = questions[currentQuestion];
+
+    document.querySelectorAll(".answer").forEach(btn => {
+        btn.disabled = true;
+    });
+
+    if (index === question.correct) {
+
+        button.classList.add("correct");
+        currentQuizScore++;
+
+    } else {
+
+        button.classList.add("wrong");
+
+        document.querySelectorAll(".answer")[
+            question.correct
+        ].classList.add("correct");
+    }
+
+    setTimeout(() => {
+
+        currentQuestion++;
+
+        renderQuestion();
+
+    }, 800);
+}
+
+/* =========================
+   DEBET / KREDIT
+========================= */
+
+function checkAccounting() {
+
+    let debit =
+        Number(document.getElementById("debitInput").value);
+
+    let credit =
+        Number(document.getElementById("creditInput").value);
+
+    let result =
+        document.getElementById("accountResult");
+
+    if (debit === 8000 && credit === 8000) {
+
+        result.innerHTML = `
+            <div style="
+                padding:16px;
+                border-radius:12px;
+                background:rgba(66,230,164,.1);
+                border:1px solid rgba(66,230,164,.3);
+                color:var(--green);
+            ">
+                ✅ Korrekt! Computeren registreres som et aktiv
+                i debet, mens banken krediteres.
+                <br><br>
+                <strong>+50 XP</strong>
+            </div>
+        `;
+
+        addXP(50);
+
+    } else {
+
+        result.innerHTML = `
+            <div style="
+                padding:16px;
+                border-radius:12px;
+                background:rgba(255,93,112,.1);
+                border:1px solid rgba(255,93,112,.3);
+                color:#ff8a98;
+            ">
+                ❌ Ikke helt.
+                Prøv igen. Husk at debet og kredit skal være
+                lige store.
+            </div>
+        `;
+    }
+}
+
+/* =========================
+   START
+========================= */
+
+updateUI();
+
 </script>
 
 </body>
 </html>
+```
