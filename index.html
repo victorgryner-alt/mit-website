@@ -8,16 +8,16 @@
 
   <style>
     :root{
-      --bg:#f6f7f9;
-      --surface:#ffffff;
-      --surface-2:#f0f2f5;
-      --text:#111318;
-      --muted:#697386;
-      --line:#e3e7ee;
-      --accent:#16c66a;
-      --accent-dark:#0fa956;
+      --bg:#06070a;
+      --surface:#0d1016;
+      --surface-2:#121722;
+      --text:#ffffff;
+      --muted:#ffffff;
+      --line:#242a33;
+      --accent:#9146ff;
+      --accent-dark:#7a35e8;
       --purple:#9146ff;
-      --dark:#171a20;
+      --dark:#0a0c10;
       --shadow:0 16px 45px rgba(18,24,40,.08);
       --radius:22px;
     }
@@ -48,7 +48,7 @@
       position:sticky;
       top:0;
       z-index:50;
-      background:rgba(255,255,255,.94);
+      background:rgba(6,7,10,.94);
       backdrop-filter:blur(15px);
       border-bottom:1px solid var(--line);
     }
@@ -75,8 +75,8 @@
       border-radius:12px;
       display:grid;
       place-items:center;
-      background:var(--accent);
-      color:#07140d;
+      background:var(--purple);
+      color:#fff;
       font-weight:1000;
     }
     .nav-links{
@@ -84,14 +84,14 @@
       gap:26px;
       font-size:14px;
       font-weight:700;
-      color:#3e4754;
+      color:#ffffff;
     }
-    .nav-links a:hover{color:#111}
+    .nav-links a:hover{color:#fff}
     .nav-actions{display:flex;align-items:center;gap:9px}
     .btn,.icon-btn{
       border:1px solid var(--line);
-      background:#fff;
-      color:#171a20;
+      background:#0d1016;
+      color:#fff;
       border-radius:14px;
       font-weight:800;
       transition:.2s ease;
@@ -99,7 +99,7 @@
     .btn{padding:11px 16px}
     .btn:hover,.icon-btn:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(18,24,40,.08)}
     .btn.primary{background:var(--dark);color:#fff;border-color:var(--dark)}
-    .btn.green{background:var(--accent);border-color:var(--accent);color:#07140d}
+    .btn.green{background:var(--purple);border-color:var(--accent);color:#07140d}
     .icon-btn{width:42px;height:42px;display:grid;place-items:center}
 
     .hero{
@@ -108,7 +108,7 @@
       padding:54px 20px 24px;
     }
     .hero-card{
-      background:#fff;
+      background:#0b0e13;
       border:1px solid var(--line);
       border-radius:32px;
       min-height:500px;
@@ -135,7 +135,7 @@
     }
     .kicker-dot{
       width:8px;height:8px;border-radius:50%;
-      background:var(--accent);
+      background:var(--purple);
     }
     h1{
       margin:0;
@@ -189,7 +189,7 @@
     }
     .mini-card{
       position:absolute;
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       box-shadow:var(--shadow);
       border-radius:16px;
@@ -210,7 +210,7 @@
       gap:14px;
     }
     .benefit{
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-radius:18px;
       padding:18px;
@@ -253,7 +253,7 @@
       padding:10px 14px;
       border:1px solid var(--line);
       border-radius:12px;
-      background:#fff;
+      background:#0d1016;
       color:#515b6b;
       font-weight:800;
     }
@@ -269,7 +269,7 @@
       gap:16px;
     }
     .product{
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-radius:22px;
       padding:20px;
@@ -293,8 +293,8 @@
       place-items:center;
       font-weight:1000;
     }
-    .robux .product-icon{background:#e8fbf0;color:#0da956}
-    .twitch .product-icon{background:#f2eaff;color:#7a35e8}
+    .robux .product-icon{background:#17121f;color:#b58cff}
+    .twitch .product-icon{background:#17121f;color:#b58cff}
     .product-badge{
       color:#8a94a6;
       font-size:10px;
@@ -337,7 +337,7 @@
       gap:16px;
     }
     .support-card{
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-radius:24px;
       padding:28px;
@@ -380,7 +380,7 @@
       z-index:100;
       width:min(450px,100%);
       height:100dvh;
-      background:#fff;
+      background:#0d1016;
       border-left:1px solid var(--line);
       padding:24px;
       overflow:auto;
@@ -416,8 +416,8 @@
     .field{
       width:100%;
       border:1px solid var(--line);
-      background:#fff;
-      color:#111318;
+      background:#0d1016;
+      color:#fff;
       border-radius:12px;
       padding:13px 14px;
       outline:none;
@@ -428,14 +428,14 @@
       margin-top:18px;
       padding:18px;
       border:1px solid #bfe8cf;
-      background:#f1fbf5;
+      background:#101712;
       border-radius:16px;
     }
     .payment-box.show{display:block}
     .payment-amount{font-size:27px;font-weight:900;color:#0b9b4c}
     .order-id{
       display:inline-block;
-      background:#e9f7ef;
+      background:#12171a;
       padding:9px 11px;
       border-radius:10px;
       font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -474,7 +474,7 @@
       height:min(600px,calc(100dvh - 125px));
       display:none;
       grid-template-rows:auto auto 1fr auto;
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-radius:24px;
       overflow:hidden;
@@ -499,8 +499,8 @@
       border-radius:12px;
       display:grid;
       place-items:center;
-      background:var(--accent);
-      color:#07140d;
+      background:var(--purple);
+      color:#fff;
       font-weight:1000;
     }
     .agent strong{display:block}
@@ -514,11 +514,11 @@
     }
     .status-dot{
       width:7px;height:7px;border-radius:50%;
-      background:var(--accent);
+      background:var(--purple);
     }
     .chat-privacy{
       padding:9px 14px;
-      background:#fafbfc;
+      background:#0a0d12;
       border-bottom:1px solid var(--line);
       color:#778194;
       font-size:11px;
@@ -529,7 +529,7 @@
       display:flex;
       flex-direction:column;
       gap:11px;
-      background:#fbfcfd;
+      background:#0a0d12;
     }
     .message-row{display:flex;flex-direction:column;gap:4px}
     .message-row.me{align-items:flex-end}
@@ -548,7 +548,7 @@
       border-bottom-right-radius:5px;
     }
     .message-row.admin .message{
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-bottom-left-radius:5px;
     }
@@ -562,7 +562,7 @@
       border-top:1px solid var(--line);
       display:flex;
       gap:8px;
-      background:#fff;
+      background:#0d1016;
     }
     .chat-form .field{flex:1}
     .send-btn{
@@ -590,7 +590,7 @@
       max-width:1120px;
       margin:auto;
       overflow:hidden;
-      background:#fff;
+      background:#0d1016;
       border:1px solid var(--line);
       border-radius:24px;
       box-shadow:var(--shadow);
@@ -611,7 +611,7 @@
     .thread-list{
       border-right:1px solid var(--line);
       overflow:auto;
-      background:#fbfcfd;
+      background:#0a0d12;
     }
     .thread{
       padding:14px;
@@ -629,14 +629,14 @@
       display:flex;
       flex-direction:column;
       gap:11px;
-      background:#fbfcfd;
+      background:#0a0d12;
     }
     .setup-box{
       margin:18px;
       padding:16px;
       border:1px solid #f0d8a1;
-      background:#fff9eb;
-      color:#6d571f;
+      background:#17120a;
+      color:#ffffff;
       border-radius:14px;
       line-height:1.55;
     }
@@ -668,7 +668,36 @@
       .chat-launcher{right:14px;bottom:14px}
       .chat-panel{right:14px;bottom:84px}
     }
-  </style>
+  
+    /* White text everywhere; Twitch-specific elements are purple */
+    body, button, input, select, textarea, a, h1, h2, h3, p, span, div, strong, label {
+      color:#fff;
+    }
+    input::placeholder, textarea::placeholder { color:#fff; opacity:.65; }
+
+    .twitch-purple,
+    [data-type="Twitch"] {
+      color:#b58cff !important;
+    }
+
+  
+    /* Main logo/brand stays white */
+    .brand, .logo, header .brand, header .logo, nav .brand, nav .logo {
+      color:#fff !important;
+    }
+    .brand *, .logo *, header .brand *, header .logo *, nav .brand *, nav .logo * {
+      color:#fff !important;
+    }
+
+
+    /* Roblox / Robux are WHITE. Only Twitch is purple. */
+    .robux, .roblox, .robux *, .roblox * {
+      color:#fff !important;
+    }
+
+
+    #platformUsernameSlot:empty { display:none; }
+</style>
 </head>
 <body>
 
@@ -791,7 +820,7 @@
   <footer>
     <div class="footer-inner">
       <div>© 2026 RBLX Market</div>
-      <div>MobilePay Box: <strong style="color:#111">7150YV</strong></div>
+      <div>MobilePay Box: <strong style="color:#fff">7150YV</strong></div>
     </div>
   </footer>
 
@@ -817,7 +846,7 @@
         <input class="field" id="customerName" placeholder="Your name">
         <input class="field" id="customerPhone" inputmode="tel" placeholder="Phone number">
         <input class="field" id="customerEmail" type="email" placeholder="Email address">
-        <button class="btn green" style="width:100%" onclick="createOrder()">Continue to payment</button>
+        <div id="platformUsernameSlot"></div><button class="btn" style="width:100%;background:#9146ff;color:white;border-color:#9146ff" onclick="createOrder()">Continue to payment</button>
       </div>
       <p class="tiny">You will receive a unique order ID to include with your MobilePay payment.</p>
     </div>
@@ -889,11 +918,36 @@
       <div id="adminBody" style="display:none">
         <div style="padding:18px;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn primary" onclick="showAdminTab('orders',this)">Orders</button>
+          <button class="btn" onclick="showAdminTab('products',this)">Products</button>
           <button class="btn" onclick="showAdminTab('messages',this)">Messages</button>
         </div>
 
         <div id="ordersTab" style="padding:18px">
           <div id="ordersList"></div>
+        </div>
+
+        <div id="productsTab" style="display:none;padding:18px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+            <div style="border:1px solid var(--line);border-radius:16px;padding:16px;background:#0d1016">
+              <h3 style="margin-top:0">Add Robux product</h3>
+              <div class="form-grid">
+                <input class="field" id="newRobuxName" placeholder="Example: 20,000 Robux">
+                <input class="field" id="newRobuxUsd" type="number" step="0.01" min="0" placeholder="Price in USD">
+                <button class="btn" style="background:#9146ff;color:white;border-color:#9146ff" onclick="addAdminProduct('Robux')">Add Robux product</button>
+              </div>
+            </div>
+
+            <div style="border:1px solid var(--line);border-radius:16px;padding:16px;background:#0d1016">
+              <h3 style="margin-top:0">Add Twitch product</h3>
+              <div class="form-grid">
+                <input class="field" id="newTwitchName" placeholder="Example: 10,000 Twitch followers">
+                <input class="field" id="newTwitchUsd" type="number" step="0.01" min="0" placeholder="Price in USD">
+                <button class="btn" style="background:#9146ff;color:white;border-color:#9146ff" onclick="addAdminProduct('Twitch')">Add Twitch product</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="adminProductsList"></div>
         </div>
 
         <div id="messagesTab" style="display:none">
@@ -919,7 +973,7 @@
   <script>
     const USD_DKK = 6.4361;
 
-    const PRODUCTS = [
+    const DEFAULT_PRODUCTS = [
       {id:"r1",type:"Robux",name:"1,000 Robux",usd:6.70,icon:"R$"},
       {id:"r2",type:"Robux",name:"2,000 Robux",usd:13.00,icon:"R$"},
       {id:"r3",type:"Robux",name:"3,000 Robux",usd:18.70,icon:"R$"},
@@ -932,7 +986,16 @@
       {id:"t3",type:"Twitch",name:"3,000 Twitch followers",usd:2.00,icon:"TV"},
       {id:"t4",type:"Twitch",name:"4,000 Twitch followers",usd:3.00,icon:"TV"},
       {id:"t5",type:"Twitch",name:"5,000 Twitch followers",usd:4.00,icon:"TV"}
-    ].map(p=>({...p,dkk:Math.round(p.usd*USD_DKK*100)/100}));
+    ];
+
+    let PRODUCTS = JSON.parse(localStorage.getItem("rblxMarketProducts") || "null") || DEFAULT_PRODUCTS;
+    PRODUCTS = PRODUCTS.map(p=>({...p,dkk:Math.round(Number(p.usd)*USD_DKK*100)/100}));
+
+    function saveProducts(){
+      localStorage.setItem("rblxMarketProducts", JSON.stringify(PRODUCTS.map(({dkk,...rest})=>rest)));
+      renderProducts();
+      renderAdminProducts();
+    }
 
     let currentFilter="All";
     let cart=JSON.parse(localStorage.getItem("rblxMarketCart")||"[]");
@@ -992,6 +1055,26 @@
       renderCart();
     }
 
+    function updateUsernameFields(){
+      const slot = document.getElementById("platformUsernameSlot");
+      if(!slot) return;
+
+      const hasRobux = cart.some(p => p.type === "Robux");
+      const hasTwitch = cart.some(p => p.type === "Twitch");
+
+      let fields = "";
+
+      if(hasRobux){
+        fields += '<div style="margin-bottom:10px"><label style="display:block;font-weight:800;margin-bottom:6px">Roblox username</label><input class="field" id="robloxUsername" placeholder="Kun Roblox username – skriv ikke Twitch her"><div class="tiny" style="margin-top:5px">Twitch-navne kan ikke bruges til Robux.</div></div>';
+      }
+
+      if(hasTwitch){
+        fields += '<div style="margin-bottom:10px"><label class="twitch-purple" style="display:block;font-weight:800;margin-bottom:6px">Twitch username</label><input class="field" id="twitchUsername" placeholder="Kun Twitch username – skriv ikke Roblox her" style="color:#b58cff"><div class="tiny twitch-purple" style="margin-top:5px">Roblox-navne kan ikke bruges til Twitch followers.</div></div>';
+      }
+
+      slot.innerHTML = fields;
+    }
+
     function renderCart(){
       const box=document.getElementById("cartItems");
       box.innerHTML=cart.length?cart.map((p,i)=>`
@@ -1004,6 +1087,7 @@
         </div>
       `).join(""):`<p style="color:#7f8a99">Your cart is empty.</p>`;
       document.getElementById("cartTotal").textContent=moneyDkk(cart.reduce((s,p)=>s+p.dkk,0));
+      updateUsernameFields();
     }
 
     function openCart(){
@@ -1022,9 +1106,34 @@
       const name=document.getElementById("customerName").value.trim();
       const phone=document.getElementById("customerPhone").value.trim();
       const email=document.getElementById("customerEmail").value.trim();
+      const robloxUsername=(document.getElementById("robloxUsername")?.value || "").trim();
+      const twitchUsername=(document.getElementById("twitchUsername")?.value || "").trim();
 
       if(!name||!phone||!email){
         alert("Please enter your name, phone number and email.");
+        return;
+      }
+
+      const needsRoblox = cart.some(p=>p.type==="Robux");
+      const needsTwitch = cart.some(p=>p.type==="Twitch");
+
+      if(needsTwitch && !twitchUsername){
+        alert("Skriv dit Twitch username.");
+        return;
+      }
+
+      if(needsTwitch && /roblox\.com|@.*roblox|\broblox\b/i.test(twitchUsername)){
+        alert("Du kan ikke skrive et Roblox-navn/link i Twitch-feltet. Skriv kun dit Twitch username.");
+        return;
+      }
+
+      if(needsRoblox && !robloxUsername){
+        alert("Skriv dit Roblox username.");
+        return;
+      }
+
+      if(needsRoblox && /twitch\.tv|@.*twitch|\btwitch\b/i.test(robloxUsername)){
+        alert("Du kan ikke skrive et Twitch-navn/link i Roblox-feltet. Skriv kun dit Roblox username.");
         return;
       }
 
@@ -1037,7 +1146,13 @@
       document.getElementById("checkoutFields").style.display="none";
 
       const order = {
-        id,name,phone,email,total,items:cart,date:new Date().toISOString(),status:"Awaiting Payment"
+        id,name,phone,email,
+        robloxUsername,
+        twitchUsername,
+        total,
+        items:cart,
+        date:new Date().toISOString(),
+        status:"Awaiting Payment"
       };
 
       const orders = JSON.parse(localStorage.getItem("rblxMarketOrders") || "[]");
@@ -1098,11 +1213,68 @@
 
     function showAdminTab(tab,btn){
       document.getElementById("ordersTab").style.display = tab==="orders" ? "block" : "none";
+      document.getElementById("productsTab").style.display = tab==="products" ? "block" : "none";
       document.getElementById("messagesTab").style.display = tab==="messages" ? "block" : "none";
+
       const parent = btn.parentElement;
       parent.querySelectorAll(".btn").forEach(b=>b.classList.remove("primary"));
       btn.classList.add("primary");
+
       if(tab==="orders") renderOrders();
+      if(tab==="products") renderAdminProducts();
+    }
+
+    function addAdminProduct(type){
+      const nameInput = document.getElementById(type==="Robux" ? "newRobuxName" : "newTwitchName");
+      const usdInput = document.getElementById(type==="Robux" ? "newRobuxUsd" : "newTwitchUsd");
+
+      const name = nameInput.value.trim();
+      const usd = Number(usdInput.value);
+
+      if(!name || !usd || usd <= 0){
+        alert("Enter a product name and a valid USD price.");
+        return;
+      }
+
+      PRODUCTS.push({
+        id: (type==="Robux" ? "r" : "t") + Date.now(),
+        type,
+        name,
+        usd,
+        icon: type==="Robux" ? "R$" : "TV",
+        dkk: Math.round(usd*USD_DKK*100)/100
+      });
+
+      nameInput.value = "";
+      usdInput.value = "";
+      saveProducts();
+      alert("Product added.");
+    }
+
+    function renderAdminProducts(){
+      const box = document.getElementById("adminProductsList");
+      if(!box) return;
+
+      if(!PRODUCTS.length){
+        box.innerHTML = `<div class="tiny">No products.</div>`;
+        return;
+      }
+
+      box.innerHTML = PRODUCTS.map((p,i)=>`
+        <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;background:#0d1016">
+          <div>
+            <strong>${p.name}</strong>
+            <div class="tiny">${p.type==="Twitch" ? `<span class="twitch-purple">Twitch</span>` : p.type} · ${moneyUsd(Number(p.usd))} · ≈ ${moneyDkk(Number(p.dkk))}</div>
+          </div>
+          <button class="btn" onclick="deleteAdminProduct(${i})">Delete</button>
+        </div>
+      `).join("");
+    }
+
+    function deleteAdminProduct(index){
+      if(!confirm("Delete this product?")) return;
+      PRODUCTS.splice(index,1);
+      saveProducts();
     }
 
     function renderOrders(){
@@ -1116,7 +1288,7 @@
       }
 
       box.innerHTML = orders.map((o,i)=>`
-        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;background:#fff">
+        <div style="border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;background:#0d1016">
           <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
             <div>
               <strong>${o.id}</strong>
@@ -1129,10 +1301,12 @@
             <div><strong>Name:</strong> ${o.name}</div>
             <div><strong>Phone:</strong> ${o.phone}</div>
             <div><strong>Email:</strong> ${o.email}</div>
+            ${o.robloxUsername ? `<div><strong>Roblox username:</strong> ${o.robloxUsername}</div>` : ""}
+            ${o.twitchUsername ? `<div><strong>Twitch username:</strong> ${o.twitchUsername}</div>` : ""}
             <div><strong>Items:</strong> ${o.items.map(x=>x.name).join(", ")}</div>
             <div style="margin-top:8px">
               <strong>MobilePay message:</strong>
-              <span style="display:inline-block;margin-left:6px;padding:6px 9px;border-radius:8px;background:#f1f4f7;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800">${o.id}</span>
+              <span style="display:inline-block;margin-left:6px;padding:6px 9px;border-radius:8px;background:#151922;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800">${o.id}</span>
               <button class="btn" style="padding:7px 10px;margin-left:6px" onclick="copyMobilePayMessage('${o.id}')">Copy</button>
             </div>
           </div>
