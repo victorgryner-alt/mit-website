@@ -846,6 +846,10 @@
         <input class="field" id="customerName" placeholder="Your name">
         <input class="field" id="customerPhone" inputmode="tel" placeholder="Phone number">
         <input class="field" id="customerEmail" type="email" placeholder="Email address">
+        <div id="checkoutError" style="display:none;background:#2a0d0d;border:1px solid #ff3b3b;color:#ff5a5a;padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:800"></div>
+        <div style="background:#2a0d0d;border:1px solid #ff3b3b;color:#ff5a5a;padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:800;line-height:1.45">
+          ⚠ Udfyld alle felter før du kan fortsætte. Husk korrekt Roblox username ved Robux og korrekt Twitch username ved Twitch followers.
+        </div>
         <div id="platformUsernameSlot"></div><button class="btn" style="width:100%;background:#9146ff;color:white;border-color:#9146ff" onclick="createOrder()">Continue to payment</button>
       </div>
       <p class="tiny">You will receive a unique order ID to include with your MobilePay payment.</p>
@@ -1100,7 +1104,18 @@
       document.getElementById("overlay").classList.remove("show");
     }
 
+    function showCheckoutError(message){
+      const box = document.getElementById("checkoutError");
+      if(box){
+        box.textContent = "⚠ " + message;
+        box.style.display = "block";
+        box.scrollIntoView({behavior:"smooth",block:"center"});
+      }
+    }
+
     function createOrder(){
+      const errorBox=document.getElementById("checkoutError");
+      if(errorBox) errorBox.style.display="none";
       if(!cart.length){alert("Your cart is empty.");return}
 
       const name=document.getElementById("customerName").value.trim();
@@ -1110,7 +1125,7 @@
       const twitchUsername=(document.getElementById("twitchUsername")?.value || "").trim();
 
       if(!name||!phone||!email){
-        alert("Please enter your name, phone number and email.");
+        showCheckoutError("Du skal udfylde navn, telefonnummer og email.");
         return;
       }
 
@@ -1118,22 +1133,22 @@
       const needsTwitch = cart.some(p=>p.type==="Twitch");
 
       if(needsTwitch && !twitchUsername){
-        alert("Skriv dit Twitch username.");
+        showCheckoutError("Du skal skrive dit Twitch username.");
         return;
       }
 
       if(needsTwitch && /roblox\.com|@.*roblox|\broblox\b/i.test(twitchUsername)){
-        alert("Du kan ikke skrive et Roblox-navn/link i Twitch-feltet. Skriv kun dit Twitch username.");
+        showCheckoutError("Du kan ikke bruge Roblox i Twitch-feltet. Skriv dit korrekte Twitch username.");
         return;
       }
 
       if(needsRoblox && !robloxUsername){
-        alert("Skriv dit Roblox username.");
+        showCheckoutError("Du skal skrive dit Roblox username.");
         return;
       }
 
       if(needsRoblox && /twitch\.tv|@.*twitch|\btwitch\b/i.test(robloxUsername)){
-        alert("Du kan ikke skrive et Twitch-navn/link i Roblox-feltet. Skriv kun dit Roblox username.");
+        showCheckoutError("Du kan ikke bruge Twitch i Roblox-feltet. Skriv dit korrekte Roblox username.");
         return;
       }
 
