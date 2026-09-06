@@ -868,6 +868,7 @@
         <div class="admin-help">
           <strong>Brug den her som din nemme editor 👇</strong><br>
           Udfyld felterne og tryk <b>Gem produkt</b>. Du kan også redigere eller slette eksisterende produkter.
+          For rigtig betaling skal produktet først oprettes i Stripe, og dets <b>Price ID</b> sættes ind her.
           Dine ændringer gemmes automatisk i browseren på denne computer.
         </div>
 
@@ -896,6 +897,11 @@
           <div>
             <label>Badge</label>
             <input id="productBadge" placeholder="Fx Nyhed / Bestseller">
+          </div>
+
+          <div class="full">
+            <label>Stripe Price ID</label>
+            <input id="productStripePrice" placeholder="price_1234..." required>
           </div>
 
           <div class="full">
@@ -959,6 +965,7 @@
         price: 59,
         badge: "Bestseller",
         description: "Clean front plate til et mere aggressivt look.",
+        stripePriceId: "",
         image: "https://ebikezilla.com/13725-large_default/talaria-sting-mx5-pro-electric-dirt-bike-black-tl-5500-pro-talaria.jpg"
       },
       {
@@ -968,6 +975,7 @@
         price: 219,
         badge: "Sikkerhed",
         description: "Kompakt alarm til Talaria og Surron.",
+        stripePriceId: "",
         image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=85"
       },
       {
@@ -977,6 +985,7 @@
         price: 349,
         badge: "Nyhed",
         description: "Giv din Light Bee et friskere og mere clean setup.",
+        stripePriceId: "",
         image: "https://ridepanther.com/cdn/shop/files/MY25_LBX_Black-6.jpg?v=1775081961&width=1400"
       },
       {
@@ -986,6 +995,7 @@
         price: 129,
         badge: "",
         description: "Komfortable grips med solidt greb.",
+        stripePriceId: "",
         image: "https://images.unsplash.com/photo-1529422643029-d4585747aaf2?auto=format&fit=crop&w=900&q=85"
       }
     ];
@@ -1083,12 +1093,50 @@
       document.getElementById("overlay").classList.remove("show");
     }
 
-    function checkout(){
+    // Din Vercel-backend. Skift kun denne ene linje efter deploy.
+    const CHECKOUT_API_URL = "https://YOUR-VERCEL-PROJECT.vercel.app/api/create-checkout-session";
+
+    async function checkout(){
       if(!cartData.length){
         alert("Din kurv er tom 😭");
         return;
       }
-      alert("Checkout er klar til at blive koblet på Stripe.");
+
+      const missingStripe = cartData.find(p => !p.stripePriceId);
+      if(missingStripe){
+        alert(`Produktet "${missingStripe.name}" mangler et Stripe Price ID.`);
+        return;
+      }
+
+      // Saml ens produkter til quantity
+      const counts = {};
+      for(const product of cartData){
+        counts[product.stripePriceId] = (counts[product.stripePriceId] || 0) + 1;
+      }
+
+      const items = Object.entries(counts).map(([price, quantity]) => ({
+        price,
+        quantity
+      }));
+
+      try{
+        const response = await fetch(CHECKOUT_API_URL, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({items})
+        });
+
+        const data = await response.json();
+
+        if(!response.ok){
+          throw new Error(data.error || "Checkout kunne ikke oprettes");
+        }
+
+        window.location.href = data.url;
+      }catch(error){
+        console.error(error);
+        alert("Checkout kunne ikke starte. Tjek backend/Stripe-indstillinger.");
+      }
     }
 
 
@@ -1147,6 +1195,7 @@
         price: Number(document.getElementById("productPrice").value),
         category: document.getElementById("productCategory").value,
         badge: document.getElementById("productBadge").value.trim(),
+        stripePriceId: document.getElementById("productStripePrice").value.trim(),
         image: document.getElementById("productImage").value.trim(),
         description: document.getElementById("productDescription").value.trim()
       };
@@ -1172,6 +1221,7 @@
       document.getElementById("productPrice").value = p.price;
       document.getElementById("productCategory").value = p.category;
       document.getElementById("productBadge").value = p.badge || "";
+      document.getElementById("productStripePrice").value = p.stripePriceId || "";
       document.getElementById("productImage").value = p.image;
       document.getElementById("productDescription").value = p.description;
       document.getElementById("productForm").scrollIntoView({behavior:"smooth"});
