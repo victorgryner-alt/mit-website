@@ -6,473 +6,695 @@
 <title>Friluftsbad Brønderslev</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #050b16;
-    color: white;
+html{
+    scroll-behavior:smooth;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    width: 700px;
-    height: 700px;
-    background: #087cff;
-    opacity: 0.08;
-    filter: blur(160px);
-    top: -300px;
-    left: -200px;
-    pointer-events: none;
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#050a12;
+    color:#fff;
+    overflow-x:hidden;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: #00b7ff;
-    opacity: 0.05;
-    filter: blur(150px);
-    bottom: -300px;
-    right: -200px;
-    pointer-events: none;
+/* ---------- BACKGROUND ---------- */
+
+body:before{
+    content:"";
+    position:fixed;
+    width:700px;
+    height:700px;
+    left:-300px;
+    top:-250px;
+    background:#087cff;
+    opacity:.10;
+    filter:blur(150px);
+    pointer-events:none;
 }
 
-/* PROGRESS */
-.progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.08);
-    z-index: 100;
+body:after{
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    right:-250px;
+    bottom:-250px;
+    background:#00c8ff;
+    opacity:.07;
+    filter:blur(150px);
+    pointer-events:none;
 }
 
-.progressBar {
-    height: 100%;
-    width: 0%;
-    background: #168cff;
-    transition: width .5s ease;
+/* ---------- NAVBAR ---------- */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    z-index:1000;
+
+    background:rgba(5,10,18,.65);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.06);
 }
 
-/* SLIDES */
-.slides {
-    width: 100%;
-    height: 100%;
-    position: relative;
+.logo{
+    font-weight:800;
+    letter-spacing:-1px;
+    font-size:19px;
 }
 
-.slide {
-    position: absolute;
-    inset: 0;
-    padding: 90px 10%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.logo span{
+    color:#168cff;
+}
 
-    opacity: 0;
-    transform: translateX(50px);
-    pointer-events: none;
+.navlinks{
+    display:flex;
+    gap:30px;
+}
+
+.navlinks a{
+    color:#9ba8b9;
+    text-decoration:none;
+    font-size:14px;
+    transition:.25s;
+}
+
+.navlinks a:hover{
+    color:#fff;
+}
+
+.navbutton{
+    padding:11px 18px;
+    border-radius:100px;
+    background:#168cff;
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:bold;
+    transition:.25s;
+}
+
+.navbutton:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(22,140,255,.3);
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+    min-height:100vh;
+    padding:150px 8% 100px;
+    display:flex;
+    align-items:center;
+    position:relative;
+}
+
+.heroContent{
+    max-width:900px;
+}
+
+.eyebrow{
+    color:#6dafff;
+    letter-spacing:4px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(55px,9vw,125px);
+    line-height:.88;
+    letter-spacing:-7px;
+    max-width:1000px;
+}
+
+.blue{
+    color:#168cff;
+}
+
+.heroText{
+    max-width:650px;
+    color:#91a0b2;
+    font-size:20px;
+    line-height:1.6;
+    margin-top:35px;
+}
+
+.heroButtons{
+    display:flex;
+    gap:15px;
+    margin-top:35px;
+}
+
+.primary{
+    background:#168cff;
+    color:#fff;
+    text-decoration:none;
+    padding:16px 25px;
+    border-radius:13px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.primary:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 50px rgba(22,140,255,.25);
+}
+
+.secondary{
+    border:1px solid rgba(255,255,255,.13);
+    color:#fff;
+    text-decoration:none;
+    padding:16px 25px;
+    border-radius:13px;
+    transition:.3s;
+}
+
+.secondary:hover{
+    background:rgba(255,255,255,.06);
+}
+
+/* floating circles */
+
+.heroCircle{
+    position:absolute;
+    right:8%;
+    top:25%;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    border:1px solid rgba(22,140,255,.15);
+    animation:float 6s ease-in-out infinite;
+}
+
+.heroCircle:before{
+    content:"";
+    position:absolute;
+    inset:45px;
+    border-radius:50%;
+    border:1px solid rgba(22,140,255,.2);
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-20px)}
+}
+
+/* ---------- SECTIONS ---------- */
+
+section{
+    padding:120px 8%;
+    position:relative;
+}
+
+.sectionTop{
+    max-width:800px;
+    margin-bottom:55px;
+}
+
+.sectionNumber{
+    color:#168cff;
+    font-size:12px;
+    letter-spacing:4px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+section h2{
+    font-size:clamp(40px,6vw,75px);
+    line-height:.95;
+    letter-spacing:-4px;
+}
+
+.sectionText{
+    margin-top:25px;
+    color:#91a0b2;
+    font-size:18px;
+    line-height:1.7;
+    max-width:750px;
+}
+
+/* ---------- CARDS ---------- */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    min-height:230px;
+    padding:32px;
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    position:relative;
+    overflow:hidden;
+
+    cursor:pointer;
 
     transition:
-        opacity .6s ease,
-        transform .6s ease;
+        transform .4s cubic-bezier(.22,1,.36,1),
+        border .3s,
+        box-shadow .4s;
 }
 
-.slide.active {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: auto;
+.card:hover{
+    transform:translateY(-10px);
+    border-color:rgba(22,140,255,.5);
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.35),
+        0 0 35px rgba(22,140,255,.08);
 }
 
-.number {
-    font-size: 14px;
-    letter-spacing: 4px;
-    color: #6dafff;
-    font-weight: bold;
-    margin-bottom: 20px;
+.cardIcon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(22,140,255,.1);
+    border:1px solid rgba(22,140,255,.2);
+
+    font-size:21px;
+    margin-bottom:30px;
 }
 
-.kicker {
-    font-size: 13px;
-    letter-spacing: 4px;
-    color: #6f7d91;
-    margin-bottom: 18px;
-    font-weight: bold;
+.card h3{
+    font-size:24px;
+    margin-bottom:12px;
 }
 
-h1 {
-    font-size: clamp(50px, 7vw, 110px);
-    line-height: .95;
-    max-width: 1100px;
-    letter-spacing: -5px;
+.card p{
+    color:#8795a7;
+    line-height:1.6;
 }
 
-h2 {
-    font-size: clamp(42px, 5vw, 75px);
-    line-height: 1;
-    max-width: 1000px;
-    letter-spacing: -3px;
+.cardArrow{
+    position:absolute;
+    right:25px;
+    bottom:23px;
+    color:#168cff;
+    font-size:22px;
 }
 
-.blue {
-    color: #168cff;
-}
+/* ---------- ARGUMENTATION ---------- */
 
-.line {
-    width: 90px;
-    height: 4px;
-    background: #168cff;
-    margin: 30px 0;
-}
+.argument{
+    max-width:1050px;
+    padding:40px;
 
-.text {
-    max-width: 850px;
-    font-size: 21px;
-    line-height: 1.65;
-    color: #aeb9c9;
-}
-
-.text strong {
-    color: white;
-}
-
-/* CARDS */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 40px;
-    max-width: 1050px;
-}
-
-.card {
-    background: rgba(255,255,255,0.045);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 20px;
-    padding: 28px;
-    min-height: 150px;
-    backdrop-filter: blur(10px);
-}
-
-.card h3 {
-    font-size: 22px;
-    margin-bottom: 12px;
-}
-
-.card p {
-    color: #8794a7;
-    line-height: 1.5;
-}
-
-/* ARGUMENTATION */
-.argumentation {
-    max-width: 1150px;
-}
-
-.argumentation .text {
-    font-size: 18px;
-    line-height: 1.55;
-    margin-bottom: 17px;
-    max-width: 1050px;
-}
-
-.argumentation .highlight {
-    color: white;
-    font-weight: bold;
-}
-
-/* PRICE */
-.priceBox {
-    margin-top: 35px;
-    display: flex;
-    align-items: center;
-    gap: 35px;
-}
-
-.price {
-    font-size: clamp(80px, 10vw, 150px);
-    font-weight: 800;
-    letter-spacing: -7px;
-    color: #168cff;
-}
-
-.priceText {
-    max-width: 500px;
-    font-size: 20px;
-    line-height: 1.5;
-    color: #aeb9c9;
-}
-
-/* BADGE */
-.badge {
-    display: inline-block;
-    width: fit-content;
-    margin-top: 30px;
-    padding: 13px 20px;
-    border-radius: 100px;
-    border: 1px solid rgba(22,140,255,.35);
-    background: rgba(22,140,255,.08);
-    color: #8bc2ff;
-    font-size: 14px;
-}
-
-/* NAVIGATION */
-.navigation {
-    position: fixed;
-    bottom: 35px;
-    right: 45px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 100;
-}
-
-.navButton {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.05);
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
-    transition: .25s;
-}
-
-.navButton:hover {
-    background: #168cff;
-    border-color: #168cff;
-    transform: scale(1.08);
-}
-
-.dots {
-    display: flex;
-    gap: 7px;
-    margin: 0 5px;
-}
-
-.dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #4b5665;
-    transition: .3s;
-}
-
-.dot.active {
-    width: 24px;
-    border-radius: 10px;
-    background: #168cff;
-}
-
-/* FULLSCREEN */
-.fullscreen {
-    position: fixed;
-    top: 25px;
-    right: 30px;
-    z-index: 100;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(255,255,255,.05);
-    color: #aeb9c9;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.fullscreen:hover {
-    color: white;
-    background: rgba(255,255,255,.1);
-}
-
-/* START SCREEN */
-.startScreen {
-    position: fixed;
-    inset: 0;
     background:
-        radial-gradient(circle at 50% 40%, rgba(22,140,255,.15), transparent 40%),
-        #050b16;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: opacity .7s ease;
+        linear-gradient(
+            145deg,
+            rgba(22,140,255,.09),
+            rgba(255,255,255,.025)
+        );
+
+    border:1px solid rgba(22,140,255,.15);
+    border-radius:30px;
 }
 
-.startScreen.hide {
-    opacity: 0;
-    pointer-events: none;
+.argument p{
+    color:#aeb9c9;
+    font-size:18px;
+    line-height:1.8;
+    margin-bottom:20px;
 }
 
-.startContent {
-    max-width: 900px;
-    padding: 30px;
+.argument strong{
+    color:#fff;
 }
 
-.startSmall {
-    font-size: 13px;
-    letter-spacing: 5px;
-    color: #6dafff;
-    margin-bottom: 25px;
-    font-weight: bold;
+.argumentPrice{
+    color:#168cff;
+    font-size:28px;
+    font-weight:800;
 }
 
-.startTitle {
-    font-size: clamp(50px, 8vw, 110px);
-    line-height: .9;
-    letter-spacing: -6px;
-    font-weight: 800;
+/* ---------- LOCATION ---------- */
+
+.location{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
 }
 
-.startText {
-    color: #8794a7;
-    font-size: 19px;
-    margin: 30px auto;
-    max-width: 600px;
-    line-height: 1.6;
+.locationBox{
+    min-height:380px;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    overflow:hidden;
+    position:relative;
 }
 
-.startButton {
-    border: none;
-    background: #168cff;
-    color: white;
-    padding: 18px 32px;
-    border-radius: 14px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .25s;
+.locationGlow{
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:#168cff;
+    opacity:.08;
+    filter:blur(90px);
+    top:-100px;
+    right:-100px;
 }
 
-.startButton:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(22,140,255,.25);
+.locationBox h3{
+    font-size:35px;
+    margin-bottom:15px;
 }
 
-/* MOBILE */
-@media(max-width: 800px) {
+.locationBox p{
+    color:#8e9caf;
+    line-height:1.6;
+}
 
-    .slide {
-        padding: 70px 7%;
+/* ---------- PRICE ---------- */
+
+.priceSection{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:60px;
+}
+
+.bigPrice{
+    font-size:clamp(100px,15vw,190px);
+    font-weight:900;
+    letter-spacing:-12px;
+    color:#168cff;
+    text-shadow:0 0 70px rgba(22,140,255,.18);
+}
+
+.priceInfo{
+    color:#91a0b2;
+    font-size:19px;
+    line-height:1.7;
+}
+
+.priceInfo strong{
+    color:#fff;
+}
+
+/* ---------- QUOTE ---------- */
+
+.quote{
+    padding:150px 8%;
+    text-align:center;
+}
+
+.quote h2{
+    max-width:1100px;
+    margin:auto;
+    font-size:clamp(45px,7vw,90px);
+}
+
+.quote p{
+    margin:30px auto 0;
+    color:#78879a;
+    max-width:650px;
+    line-height:1.7;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+    padding:45px 8%;
+    border-top:1px solid rgba(255,255,255,.07);
+    display:flex;
+    justify-content:space-between;
+    color:#657286;
+    font-size:13px;
+}
+
+/* ---------- POPUP ---------- */
+
+.popupOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(1,5,12,.75);
+    backdrop-filter:blur(0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+
+    opacity:0;
+    visibility:hidden;
+
+    z-index:3000;
+
+    transition:
+        opacity .35s,
+        backdrop-filter .45s,
+        visibility .35s;
+}
+
+.popupOverlay.show{
+    opacity:1;
+    visibility:visible;
+    backdrop-filter:blur(15px);
+}
+
+.popup{
+    width:min(720px,94vw);
+    padding:45px;
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(14,28,47,.98),
+            rgba(5,12,23,.98)
+        );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,.7),
+        0 0 70px rgba(22,140,255,.08);
+
+    transform:translateY(40px) scale(.85);
+    opacity:0;
+
+    transition:
+        transform .55s cubic-bezier(.16,1,.3,1),
+        opacity .4s;
+}
+
+.popupOverlay.show .popup{
+    transform:translateY(0) scale(1);
+    opacity:1;
+}
+
+.popupClose{
+    position:absolute;
+    top:20px;
+    right:20px;
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.05);
+
+    color:#fff;
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.popupClose:hover{
+    background:#168cff;
+    transform:rotate(90deg);
+}
+
+.popupIcon{
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.popup h3{
+    font-size:38px;
+    margin-bottom:20px;
+}
+
+.popup p{
+    color:#9aa8ba;
+    line-height:1.8;
+    font-size:18px;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:850px){
+
+    nav{
+        padding:0 5%;
     }
 
-    h1 {
-        letter-spacing: -3px;
+    .navlinks{
+        display:none;
     }
 
-    .cards {
-        grid-template-columns: 1fr;
-        margin-top: 25px;
+    .hero{
+        padding:130px 7% 80px;
     }
 
-    .card {
-        min-height: auto;
-        padding: 20px;
+    .heroCircle{
+        display:none;
     }
 
-    .text {
-        font-size: 17px;
+    .hero h1{
+        letter-spacing:-4px;
     }
 
-    .argumentation .text {
-        font-size: 15px;
+    section{
+        padding:85px 7%;
     }
 
-    .priceBox {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    .price {
-        font-size: 90px;
+    .location{
+        grid-template-columns:1fr;
     }
 
-    .navigation {
-        right: 20px;
-        bottom: 20px;
+    .priceSection{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .argument{
+        padding:28px;
+    }
+
+    .popup{
+        padding:35px 25px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- PROGRESS -->
-<div class="progress">
-    <div class="progressBar" id="progressBar"></div>
-</div>
 
-<!-- START -->
-<div class="startScreen" id="startScreen">
-    <div class="startContent">
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-        <div class="startSmall">
-            BRØNDERSLEV · FRILUFTSBAD
-        </div>
+<nav>
 
-        <div class="startTitle">
-            ET NYT<br>
-            <span class="blue">FRILUFTSBAD.</span>
-        </div>
-
-        <div class="startText">
-            En idé for mere fællesskab, aktivitet og liv
-            blandt de unge i Brønderslev.
-        </div>
-
-        <button class="startButton" onclick="startPresentation()">
-            START PRÆSENTATION →
-        </button>
-
+    <div class="logo">
+        FRILUFTSBAD <span>BRØNDERSLEV</span>
     </div>
-</div>
 
-<!-- SLIDES -->
-<div class="slides">
+    <div class="navlinks">
+        <a href="#hvorfor">Hvorfor?</a>
+        <a href="#argumentation">Argumentation</a>
+        <a href="#placering">Placering</a>
+        <a href="#pris">Økonomi</a>
+    </div>
 
-    <!-- SLIDE 1 -->
-    <section class="slide active">
+    <a class="navbutton" href="#konklusion">
+        Vores idé →
+    </a>
 
-        <div class="kicker">
-            VORES IDÉ
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+    <div class="heroContent">
+
+        <div class="eyebrow">
+            ET NYT SAMLINGSPUNKT I BRØNDERSLEV
         </div>
 
         <h1>
-            Et <span class="blue">friluftsbad</span><br>
-            for hele byen.
+            Et sted at
+            <span class="blue">være.</span>
         </h1>
 
-        <div class="line"></div>
-
-        <p class="text">
-            Et nyt sted hvor unge kan mødes,
-            være aktive og skabe mere liv i Brønderslev.
+        <p class="heroText">
+            Vores idé er et friluftsbad i Brønderslev,
+            hvor unge kan mødes, være aktive og skabe
+            mere fællesskab i byen.
         </p>
 
-    </section>
+        <div class="heroButtons">
 
+            <a href="#hvorfor" class="primary">
+                Udforsk idéen →
+            </a>
 
-    <!-- SLIDE 2 -->
-    <section class="slide">
+            <a href="#argumentation" class="secondary">
+                Se argumentationen
+            </a>
 
-        <div class="number">
-            01 / UDFORDRINGEN
         </div>
 
-        <div class="kicker">
-            HVORFOR GØRE NOGET?
+    </div>
+
+    <div class="heroCircle"></div>
+
+</header>
+
+
+<!-- =========================
+     HVORFOR
+========================= -->
+
+<section id="hvorfor">
+
+    <div class="sectionTop">
+
+        <div class="sectionNumber">
+            01 / HVORFOR?
         </div>
 
         <h2>
@@ -480,102 +702,131 @@ h2 {
             <span class="blue">steder at være.</span>
         </h2>
 
-        <div class="cards">
+        <p class="sectionText">
+            Vi mener, at Brønderslev mangler flere muligheder
+            for unge. Et friluftsbad kan være både et sted
+            at være aktiv og et sted at mødes.
+        </p>
 
-            <div class="card">
-                <h3>Fællesskab</h3>
-                <p>
-                    Der mangler steder hvor unge kan mødes
-                    og være sammen.
-                </p>
-            </div>
+    </div>
 
-            <div class="card">
-                <h3>Aktivitet</h3>
-                <p>
-                    Et friluftsbad kan give flere muligheder
-                    for at være aktiv.
-                </p>
-            </div>
 
-            <div class="card">
-                <h3>Fritid</h3>
-                <p>
-                    Et sted hvor man kan bruge sin fritid
-                    sammen med venner.
-                </p>
-            </div>
+    <div class="cards">
+
+        <div class="card" onclick="openPopup('fællesskab')">
+
+            <div class="cardIcon">👥</div>
+
+            <h3>Fællesskab</h3>
+
+            <p>
+                Et sted hvor man kan mødes med venner.
+            </p>
+
+            <div class="cardArrow">→</div>
 
         </div>
 
-    </section>
+
+        <div class="card" onclick="openPopup('aktivitet')">
+
+            <div class="cardIcon">🏊</div>
+
+            <h3>Aktivitet</h3>
+
+            <p>
+                Mere mulighed for at være aktiv.
+            </p>
+
+            <div class="cardArrow">→</div>
+
+        </div>
 
 
-    <!-- SLIDE 3 -->
-    <section class="slide">
+        <div class="card" onclick="openPopup('fritid')">
 
-        <div class="number">
+            <div class="cardIcon">☀️</div>
+
+            <h3>Fritid</h3>
+
+            <p>
+                Noget at lave sammen efter skole.
+            </p>
+
+            <div class="cardArrow">→</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ARGUMENTATION
+========================= -->
+
+<section id="argumentation">
+
+    <div class="sectionTop">
+
+        <div class="sectionNumber">
             02 / ARGUMENTATION
         </div>
 
-        <div class="kicker">
-            VORES ARGUMENT
-        </div>
-
         <h2>
-            Vores <span class="blue">argumentation.</span>
+            Vores
+            <span class="blue">argumentation.</span>
         </h2>
 
-        <div class="line"></div>
-
-        <div class="argumentation">
-
-            <p class="text">
-                Vores mening er, at de unge i Brønderslev mangler
-                noget at lave. Der mangler faciliteter i byen,
-                som de unge kan benytte, i stedet for bare at tage
-                hjem og lave ingenting helt alene uden noget fællesskab.
-            </p>
-
-            <p class="text">
-                Det nærmeste friluftsbad ligger jo i Aalborg,
-                og der ville det være meget nemmere at kunne gå
-                eller cykle lige ned til et friluftsbad her i
-                Brønderslev i stedet for at skulle tage transport
-                til en anden by.
-            </p>
-
-            <p class="text">
-                Det vil komme til at koste
-                <span class="highlight">39,00 kr.</span>
-                at komme ind i friluftsbadet, da det koster penge
-                at vedligeholde det og holde det i gang.
-            </p>
-
-            <p class="text">
-                På den måde kan man blive mere social og aktiv
-                sammen med andre, fordi vi mener, at der mangler
-                steder for de unge.
-            </p>
-
-        </div>
-
-        <div class="badge">
-            Mere fællesskab · Mere aktivitet · Mere liv i byen
-        </div>
-
-    </section>
+    </div>
 
 
-    <!-- SLIDE 4 -->
-    <section class="slide">
+    <div class="argument">
 
-        <div class="number">
-            03 / TILGÆNGELIGHED
-        </div>
+        <p>
+            Vores mening er, at de unge i Brønderslev mangler
+            noget at lave. Der mangler faciliteter i byen,
+            som de unge kan benytte, i stedet for bare at tage
+            hjem og lave ingenting helt alene uden noget fællesskab.
+        </p>
 
-        <div class="kicker">
-            HVORFOR LOKALT?
+        <p>
+            Det nærmeste friluftsbad ligger jo i Aalborg,
+            og der ville det være meget nemmere at kunne gå
+            eller cykle lige ned til et friluftsbad her i
+            Brønderslev i stedet for at skulle tage transport
+            til en anden by.
+        </p>
+
+        <p>
+            Det vil komme til at koste
+            <strong>39,00 kr.</strong>
+            at komme ind i friluftsbadet, da det koster penge
+            at vedligeholde det og holde det i gang.
+        </p>
+
+        <p>
+            På den måde kan man blive mere social og aktiv
+            sammen med andre, fordi vi mener, at der mangler
+            steder for de unge.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PLACERING
+========================= -->
+
+<section id="placering">
+
+    <div class="sectionTop">
+
+        <div class="sectionNumber">
+            03 / PLACERING
         </div>
 
         <h2>
@@ -583,293 +834,382 @@ h2 {
             <span class="blue">tage langt væk?</span>
         </h2>
 
-        <div class="cards">
+        <p class="sectionText">
+            Hvis friluftsbadet ligger i Brønderslev,
+            bliver det nemmere for de unge at komme derhen.
+        </p>
 
-            <div class="card">
-                <h3>🚶 Gå</h3>
-                <p>
-                    Hvis friluftsbadet ligger centralt,
-                    kan mange unge gå derhen.
-                </p>
-            </div>
+    </div>
 
-            <div class="card">
-                <h3>🚲 Cykle</h3>
-                <p>
-                    Man kan nemt cykle derhen med venner
-                    fra forskellige dele af byen.
-                </p>
-            </div>
 
-            <div class="card">
-                <h3>📍 Lokalt</h3>
-                <p>
-                    Man behøver ikke tage til en anden by
-                    for at bruge et friluftsbad.
-                </p>
-            </div>
+    <div class="location">
+
+        <div class="locationBox">
+
+            <div class="locationGlow"></div>
+
+            <h3>🚶 Gå eller cykle</h3>
+
+            <p>
+                Et lokalt friluftsbad betyder, at mange
+                unge kan gå eller cykle derhen sammen
+                med deres venner.
+            </p>
 
         </div>
 
-    </section>
 
+        <div class="locationBox">
 
-    <!-- SLIDE 5 -->
-    <section class="slide">
+            <div class="locationGlow"></div>
 
-        <div class="number">
-            04 / ØKONOMI
+            <h3>📍 Brønderslev</h3>
+
+            <p>
+                I stedet for at tage til Aalborg eller
+                en anden by kan man have et friluftsbad
+                tæt på sin egen hverdag.
+            </p>
+
         </div>
 
-        <div class="kicker">
-            EN REALISTISK PRIS
-        </div>
+    </div>
 
-        <h2>
-            Det skal også
-            <span class="blue">kunne drives.</span>
-        </h2>
+</section>
 
-        <div class="priceBox">
 
-            <div class="price">
+<!-- =========================
+     ØKONOMI
+========================= -->
+
+<section id="pris">
+
+    <div class="priceSection">
+
+        <div>
+
+            <div class="sectionNumber">
+                04 / ØKONOMI
+            </div>
+
+            <div class="bigPrice">
                 39,-
             </div>
 
-            <div class="priceText">
-                En entrépris på 39 kr. kan være med til at
-                betale for blandt andet vedligeholdelse,
-                rengøring, vand og drift af friluftsbadet.
-            </div>
+        </div>
+
+        <div class="priceInfo">
+
+            <h2>
+                En pris der
+                <span class="blue">hjælper driften.</span>
+            </h2>
+
+            <p style="margin-top:30px;">
+                Vi foreslår en entrépris på
+                <strong>39 kr.</strong>
+                Det skal være en pris, som stadig er
+                til at betale for unge, samtidig med at
+                pengene kan være med til at betale for
+                vedligeholdelse, rengøring, vand og drift.
+            </p>
 
         </div>
 
-        <div class="badge">
-            39 kr. pr. person
-        </div>
+    </div>
 
-    </section>
+</section>
 
 
-    <!-- SLIDE 6 -->
-    <section class="slide">
+<!-- =========================
+     FÆLLESSKAB
+========================= -->
 
-        <div class="number">
+<section>
+
+    <div class="sectionTop">
+
+        <div class="sectionNumber">
             05 / FÆLLESSKAB
         </div>
 
-        <div class="kicker">
-            MERE END EN POOL
-        </div>
-
         <h2>
-            Et sted at
-            <span class="blue">være sammen.</span>
+            Mere end bare
+            <span class="blue">en pool.</span>
         </h2>
 
-        <div class="cards">
-
-            <div class="card">
-                <h3>Socialt</h3>
-                <p>
-                    Et naturligt sted at mødes med venner
-                    og andre unge.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Aktivt</h3>
-                <p>
-                    Mulighed for at svømme, lege og være
-                    fysisk aktiv.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Lokalt</h3>
-                <p>
-                    Et nyt samlingspunkt midt i Brønderslev
-                    for hele byen.
-                </p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SLIDE 7 -->
-    <section class="slide">
-
-        <div class="number">
-            06 / KONKLUSION
-        </div>
-
-        <div class="kicker">
-            VORES FORSLAG
-        </div>
-
-        <h2>
-            Mere liv.<br>
-            Mere aktivitet.<br>
-            <span class="blue">Mere fællesskab.</span>
-        </h2>
-
-        <div class="line"></div>
-
-        <p class="text">
-            Et friluftsbad i Brønderslev kan give de unge
-            et nyt sted at mødes, være aktive og bruge
-            deres fritid sammen.
+        <p class="sectionText">
+            Det handler ikke kun om vand.
+            Det handler om at skabe et sted,
+            hvor mennesker mødes.
         </p>
 
-        <div class="badge">
-            BRØNDERSLEV · ET STED FOR DE UNGE
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card" onclick="openPopup('socialt')">
+
+            <div class="cardIcon">🤝</div>
+
+            <h3>Socialt</h3>
+
+            <p>
+                Et naturligt sted at mødes.
+            </p>
+
+            <div class="cardArrow">→</div>
+
         </div>
 
-    </section>
+
+        <div class="card" onclick="openPopup('aktivt')">
+
+            <div class="cardIcon">⚡</div>
+
+            <h3>Aktivt</h3>
+
+            <p>
+                Mere bevægelse og aktivitet.
+            </p>
+
+            <div class="cardArrow">→</div>
+
+        </div>
+
+
+        <div class="card" onclick="openPopup('lokalt')">
+
+            <div class="cardIcon">📍</div>
+
+            <h3>Lokalt</h3>
+
+            <p>
+                Et nyt samlingspunkt i byen.
+            </p>
+
+            <div class="cardArrow">→</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     KONKLUSION
+========================= -->
+
+<section class="quote" id="konklusion">
+
+    <div class="sectionNumber">
+        06 / KONKLUSION
+    </div>
+
+    <h2>
+        Mere liv.<br>
+        Mere aktivitet.<br>
+        <span class="blue">Mere fællesskab.</span>
+    </h2>
+
+    <p>
+        Et friluftsbad i Brønderslev kan give de unge
+        et nyt sted at mødes, være aktive og bruge
+        deres fritid sammen.
+    </p>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <span>
+        FRILUFTSBAD BRØNDERSLEV
+    </span>
+
+    <span>
+        Et sted for hele byen
+    </span>
+
+</footer>
+
+
+<!-- =========================
+     POPUP
+========================= -->
+
+<div class="popupOverlay" id="popupOverlay" onclick="overlayClose(event)">
+
+    <div class="popup">
+
+        <button class="popupClose" onclick="closePopup()">
+            ×
+        </button>
+
+        <div class="popupIcon" id="popupIcon"></div>
+
+        <h3 id="popupTitle"></h3>
+
+        <p id="popupText"></p>
+
+    </div>
 
 </div>
-
-
-<!-- NAVIGATION -->
-<div class="navigation">
-
-    <button class="navButton" onclick="previousSlide()">
-        ←
-    </button>
-
-    <div class="dots" id="dots"></div>
-
-    <button class="navButton" onclick="nextSlide()">
-        →
-    </button>
-
-</div>
-
-
-<!-- FULLSCREEN -->
-<button class="fullscreen" onclick="toggleFullscreen()">
-    ⛶
-</button>
 
 
 <script>
 
-const slides = document.querySelectorAll(".slide");
-const progressBar = document.getElementById("progressBar");
-const dotsContainer = document.getElementById("dots");
+/* =========================
+   POPUP DATA
+========================= */
 
-let currentSlide = 0;
+const popupData = {
 
+    fællesskab:{
+        icon:"👥",
+        title:"Fællesskab",
+        text:"Et friluftsbad kan blive et naturligt sted, hvor unge mødes med deres venner. I stedet for at tage hjem hver for sig kan man mødes, svømme, snakke og være sammen."
+    },
 
-/* DOTS */
-slides.forEach((slide, index) => {
+    aktivitet:{
+        icon:"🏊",
+        title:"Aktivitet",
+        text:"Et friluftsbad giver mulighed for at være fysisk aktiv. Man kan svømme, lege i vandet eller bare bruge området sammen med venner."
+    },
 
-    const dot = document.createElement("div");
+    fritid:{
+        icon:"☀️",
+        title:"Fritid",
+        text:"Efter skole eller i weekenden kan friluftsbadet give de unge noget konkret at lave. Det kan blive et sted, man tager hen sammen i stedet for bare at tage hjem."
+    },
 
-    dot.classList.add("dot");
+    socialt:{
+        icon:"🤝",
+        title:"Socialt",
+        text:"Det vigtigste er måske fællesskabet. Et friluftsbad kan samle forskellige mennesker og give unge et sted, hvor det er nemt at mødes."
+    },
 
-    if(index === 0) {
-        dot.classList.add("active");
+    aktivt:{
+        icon:"⚡",
+        title:"Aktivt",
+        text:"Man behøver ikke være elitesportsudøver. Bare det at svømme, lege eller bevæge sig sammen kan give mere aktivitet i hverdagen."
+    },
+
+    lokalt:{
+        icon:"📍",
+        title:"Lokalt",
+        text:"Når friluftsbadet ligger i Brønderslev, bliver det en del af byen. Det gør det nemmere at komme derhen uden at skulle transportere sig til en anden by."
     }
 
-    dot.onclick = () => showSlide(index);
-
-    dotsContainer.appendChild(dot);
-
-});
+};
 
 
-const dots = document.querySelectorAll(".dot");
+/* =========================
+   OPEN POPUP
+========================= */
 
+function openPopup(type){
 
-/* SHOW SLIDE */
-function showSlide(index) {
+    const data = popupData[type];
 
-    if(index < 0) {
-        index = slides.length - 1;
-    }
-
-    if(index >= slides.length) {
-        index = 0;
-    }
-
-    slides.forEach(slide => {
-        slide.classList.remove("active");
-    });
-
-    dots.forEach(dot => {
-        dot.classList.remove("active");
-    });
-
-    slides[index].classList.add("active");
-    dots[index].classList.add("active");
-
-    currentSlide = index;
-
-    const progress =
-        ((index + 1) / slides.length) * 100;
-
-    progressBar.style.width = progress + "%";
-}
-
-
-/* NEXT */
-function nextSlide() {
-    showSlide(currentSlide + 1);
-}
-
-
-/* PREVIOUS */
-function previousSlide() {
-    showSlide(currentSlide - 1);
-}
-
-
-/* START */
-function startPresentation() {
+    document.getElementById("popupIcon").textContent = data.icon;
+    document.getElementById("popupTitle").textContent = data.title;
+    document.getElementById("popupText").textContent = data.text;
 
     document
-        .getElementById("startScreen")
-        .classList.add("hide");
+        .getElementById("popupOverlay")
+        .classList.add("show");
 
-    showSlide(0);
+    document.body.style.overflow = "hidden";
 }
 
 
-/* FULLSCREEN */
-function toggleFullscreen() {
+/* =========================
+   CLOSE POPUP
+========================= */
 
-    if(!document.fullscreenElement) {
+function closePopup(){
 
-        document.documentElement.requestFullscreen();
+    document
+        .getElementById("popupOverlay")
+        .classList.remove("show");
 
-    } else {
+    document.body.style.overflow = "";
+}
 
-        document.exitFullscreen();
 
+/* =========================
+   CLICK OUTSIDE
+========================= */
+
+function overlayClose(event){
+
+    if(event.target === document.getElementById("popupOverlay")){
+        closePopup();
     }
 
 }
 
 
-/* KEYBOARD */
-document.addEventListener("keydown", function(event) {
+/* =========================
+   ESCAPE
+========================= */
 
-    if(event.key === "ArrowRight") {
-        nextSlide();
-    }
+document.addEventListener("keydown", function(event){
 
-    if(event.key === "ArrowLeft") {
-        previousSlide();
+    if(event.key === "Escape"){
+        closePopup();
     }
 
 });
 
 
-/* START AT FIRST SLIDE */
-showSlide(0);
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+const observer = new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if(entry.isIntersecting){
+
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.12
+    }
+
+);
+
+
+document.querySelectorAll(
+    ".card, .argument, .locationBox, .sectionTop"
+).forEach(element => {
+
+    element.style.opacity = "0";
+    element.style.transform = "translateY(30px)";
+    element.style.transition =
+        "opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1)";
+
+    observer.observe(element);
+
+});
 
 </script>
 
