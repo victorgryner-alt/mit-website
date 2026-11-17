@@ -84,23 +84,24 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
   <h2 style="margin:0 0 4px">Indstillinger</h2>
   <label>Farvetema</label><div id="sw" style="display:flex;gap:10px;flex-wrap:wrap"></div>
   <label for="s-name">AI'ens navn</label><input id="s-name">
-  <label for="s-model">Model</label><select id="s-model"><option value="gemini-flash-latest">Gemini Flash (hurtig)</option><option value="gemini-flash-lite-latest">Gemini Flash-Lite (hurtigst)</option></select>
+  <label for="s-model">Model</label><select id="s-model"><option value="gemini-flash-lite-latest">Gemini Flash-Lite (hurtigst)</option><option value="gemini-flash-latest">Gemini Flash (klogere, langsommere)</option></select>
   <label for="s-per">Personlighed</label><select id="s-per"></select>
   <label for="s-sys">Egen systemprompt (bruges ved “Egen”)</label><textarea id="s-sys" rows="3"></textarea>
   <label for="s-t">Kreativitet: <span id="tv"></span></label><input id="s-t" type="range" min="0" max="1.5" step="0.1" style="padding:0">
   <div style="display:flex;gap:8px;margin-top:16px"><button class="go" style="padding:10px 18px">Gem</button><button type="button" class="ghost" id="clr">Slet alle samtaler</button></div>
 </form></dialog>
 <script>
-// ====== AQ.Ab8RN6IopLCa4HS-x5jnWGx09Iyg9VypYCHMJwVFYnDIqa4bYw ======
+// ====== AQ.Ab8RN6JuSogdp7i6nOJRF2T5V0cNSUAjApnYXbyeremoaSNjjA ======
 // Hent den på https://aistudio.google.com/apikey
-const SHARED_KEY = "AQ.Ab8RN6IopLCa4HS-x5jnWGx09Iyg9VypYCHMJwVFYnDIqa4bYw";
+const SHARED_KEY = "AQ.Ab8RN6JuSogdp7i6nOJRF2T5V0cNSUAjApnYXbyeremoaSNjjA";
 // ==============================================================
 const $=id=>document.getElementById(id);
 const PER={"Standard":"Du er en hjælpsom, venlig AI-assistent. Svar kort og klart.","Kodehjælper":"Du er en erfaren udvikler. Giv fungerende kode i kodeblokke og forklar kort.","Sarkastisk ven":"Du er en vittig, let sarkastisk ven, men altid hjælpsom og aldrig ond.","Lærer":"Forklar alt enkelt, som til en nysgerrig 12-årig, med eksempler.","Forfatter":"Du er en kreativ forfatter med levende sprog og fantasi.","Egen":""};
-let S={chats:[],cur:null,cfg:{key:"",name:"Hedegaard AI",theme:"violet",model:"gemini-flash-latest",per:"Standard",sys:"",t:0.7}};
+let S={chats:[],cur:null,cfg:{key:"",name:"Hedegaard AI",theme:"violet",model:"gemini-flash-lite-latest",per:"Standard",sys:"",t:0.7}};
 try{const x=JSON.parse(localStorage.getItem("minai")||"null");if(x)S=Object.assign(S,x,{cfg:Object.assign(S.cfg,x.cfg)})}catch{}
 if(S.cfg.name==="Min AI")S.cfg.name="Hedegaard AI";
 if(!/^gemini/.test(S.cfg.model))S.cfg.model="gemini-flash-latest";
+if(!S.cfg.v){S.cfg.model="gemini-flash-lite-latest";S.cfg.v=2}
 const THEMES={violet:["Violet","#7c5cff","#ff7ab6","#ff9f45","#6a4cf5"],hav:["Hav","#00a8ff","#00e0c6","#7cf5a5","#0a86d6"],solnedgang:["Solnedgang","#ff5e62","#ff9966","#ffd166","#e04a3f"],skov:["Skov","#2fbf71","#a8e063","#f9d423","#1f8f55"],rose:["Rose","#ff4d9d","#c471ed","#ffa6c9","#d6247d"]};
 let TC=["#9b7cff","#ff7ab6"];
 function applyTheme(k){const t=THEMES[k]||THEMES.violet,r=document.documentElement.style;r.setProperty("--c1",t[1]);r.setProperty("--c2",t[2]);r.setProperty("--c3",t[3]);r.setProperty("--acc",t[3]);r.setProperty("--me",t[4]);TC=[t[1],t[2]]}
@@ -134,14 +135,15 @@ function draw(){const c=cur();$("ttl").textContent=S.cfg.name;document.title=S.c
 let ac=null;
 function busy(b){$("orb").classList.toggle("busy",b);$("go").textContent=b?"Stop":"Send"}
 async function ask(){
-  const c=cur();const KEY=SHARED_KEY;if(!KEY)return noKey()
+  const c=cur();const KEY=SHARED_KEY.replace(/[\s"']/g,"");if(!KEY)return noKey()
   const sys=S.cfg.per==="Egen"?S.cfg.sys:PER[S.cfg.per];
   const bub=row("assistant","…",c.msgs.length);let out="",failed=false;ac=new AbortController();busy(true);
   try{
-    const body=JSON.stringify({systemInstruction:{parts:[{text:"Du hedder "+S.cfg.name+". "+(sys||PER.Standard)}]},generationConfig:{temperature:+S.cfg.t},contents:c.msgs.slice(-30).map(m=>({role:m.role==="user"?"user":"model",parts:[{text:m.content}]}))});
-    let r;for(const m of [S.cfg.model,...["gemini-flash-latest","gemini-3.5-flash","gemini-flash-lite-latest"].filter(x=>x!==S.cfg.model)]){
-      r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":streamGenerateContent?alt=sse",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json","x-goog-api-key":KEY},body});
-      if(r.status!==404)break}
+    const mk=th=>JSON.stringify({systemInstruction:{parts:[{text:"Du hedder "+S.cfg.name+". "+(sys||PER.Standard)}]},generationConfig:{temperature:+S.cfg.t,...(th?{thinkingConfig:{thinkingBudget:0}}:{})},contents:c.msgs.slice(-30).map(m=>({role:m.role==="user"?"user":"model",parts:[{text:m.content}]}))});
+    const go=(m,th)=>fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":streamGenerateContent?alt=sse",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json","x-goog-api-key":KEY},body:mk(th)});
+    let r;for(const m of [S.cfg.model,...["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.5-flash"].filter(x=>x!==S.cfg.model)]){
+      r=await go(m,true);if(r.status===400)r=await go(m,false);
+      if(![404,429,503].includes(r.status))break}
     if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error?.message||"Fejl "+r.status)}
     const rd=r.body.getReader(),dec=new TextDecoder();let buf="";
     for(;;){const{done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});const ls=buf.split("\n");buf=ls.pop();
