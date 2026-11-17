@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Min AI</title>
+<title>Hedegaard AI</title>
 <style>
-:root{--bg:#f3f1fb;--side:#e8e5f6;--panel:#fff;--ink:#1a1840;--mut:#6d6a94;--line:#d6d2ee;--me:#5b3df0;--acc:#ff9f45;color-scheme:light dark}
+:root{--bg:#f3f1fb;--side:#e8e5f6;--panel:#fff;--ink:#1a1840;--mut:#6d6a94;--line:#d6d2ee;--me:#5b3df0;--c1:#7c5cff;--c2:#ff7ab6;--c3:#ff9f45;--acc:#ff9f45;color-scheme:light dark}
 @media(prefers-color-scheme:dark){:root{--bg:#0d1024;--side:#121634;--panel:#1a1f45;--ink:#eceefc;--mut:#9a9fcb;--line:#2a3064;--me:#6f55ff}}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.6 "Avenir Next","Segoe UI",system-ui,sans-serif;display:grid;grid-template-columns:270px 1fr}
+html{background:var(--bg)}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+body{color:var(--ink);font:16px/1.6 "Avenir Next","Segoe UI",system-ui,sans-serif;display:grid;grid-template-columns:270px 1fr}
 button{font:inherit;color:inherit;cursor:pointer}
-aside{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px;gap:10px;min-height:0}
-.new{background:linear-gradient(135deg,#7c5cff,#ff7ab6 60%,var(--acc));color:#fff;border:0;border-radius:12px;padding:10px;font-weight:700}
+aside{background:color-mix(in srgb,var(--side) 78%,transparent);backdrop-filter:blur(14px);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px;gap:10px;min-height:0}
+.new{background:linear-gradient(135deg,var(--c1),var(--c2) 60%,var(--c3));color:#fff;border:0;border-radius:12px;padding:10px;font-weight:700}
 #list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:4px}
 .chat{display:flex;align-items:center;gap:6px;border-radius:10px;padding:8px 10px;cursor:pointer;color:var(--mut)}
 .chat.on{background:var(--panel);color:var(--ink)}
@@ -21,11 +23,13 @@ aside{background:var(--side);border-right:1px solid var(--line);display:flex;fle
 .ghost:hover{color:var(--ink)}
 section{display:flex;flex-direction:column;min-height:0;min-width:0}
 header{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line)}
-header h1{font-size:1.05rem;margin:0;flex:1}
+header h1,.empty h2{margin:0;flex:1;font-size:1.25rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c1));background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 6s linear infinite}
+@keyframes flow{to{background-position:250% 0}}
+#in:focus{box-shadow:0 0 0 2px var(--c1),0 0 26px color-mix(in srgb,var(--c2) 35%,transparent);outline:none}
 #menu{display:none}
-.orb{width:34px;height:34px;border-radius:50%;flex:none;background:radial-gradient(circle at 30% 30%,#fff8,transparent 40%),conic-gradient(from 0deg,#7c5cff,#ff7ab6,#ff9f45,#7c5cff);animation:spin 9s linear infinite,breathe 4s ease-in-out infinite;box-shadow:0 0 18px #7c5cff77}
-.orb.busy{animation:spin 1.6s linear infinite,breathe 1s ease-in-out infinite;box-shadow:0 0 34px #ff7ab6}
-.orb.big{width:110px;height:110px;box-shadow:0 0 60px #7c5cff88}
+.orb{width:34px;height:34px;border-radius:50%;flex:none;background:radial-gradient(circle at 30% 30%,#fff8,transparent 40%),conic-gradient(from 0deg,var(--c1),var(--c2),var(--c3),var(--c1));animation:spin 9s linear infinite,breathe 4s ease-in-out infinite;box-shadow:0 0 18px var(--c1)}
+.orb.busy{animation:spin 1.6s linear infinite,breathe 1s ease-in-out infinite;box-shadow:0 0 34px var(--c2)}
+.orb.big{width:110px;height:110px;box-shadow:0 0 60px var(--c1)}
 @keyframes spin{to{transform:rotate(360deg)}}@keyframes breathe{50%{scale:1.12}}
 #log{flex:1;overflow:auto;padding:22px 20px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
 .row{display:flex;flex-direction:column;max-width:820px;width:100%;margin:0 auto}
@@ -33,7 +37,7 @@ header h1{font-size:1.05rem;margin:0;flex:1}
 .msg{max-width:88%;padding:10px 15px;border-radius:16px;overflow-wrap:anywhere}
 .me .msg{background:var(--me);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
 .ai .msg{background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
-.msg code{background:#7c5cff22;padding:1px 5px;border-radius:5px;font:.88em ui-monospace,Menlo,monospace}
+.msg code{background:color-mix(in srgb,var(--c1) 15%,transparent);padding:1px 5px;border-radius:5px;font:.88em ui-monospace,Menlo,monospace}
 .msg h3,.msg h4{margin:.4em 0}.msg ul{margin:.3em 0;padding-left:1.3em}.msg a{color:var(--me)}
 .code{margin:.6em 0;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
 .ch{display:flex;justify-content:space-between;padding:4px 10px;background:var(--side);font-size:.8rem;color:var(--mut)}
@@ -43,7 +47,7 @@ pre code{background:none;padding:0}
 .acts{display:flex;gap:4px;margin-top:3px}.acts button{background:none;border:0;color:var(--mut);font-size:.8rem;padding:2px 8px;border-radius:8px}.acts button:hover{background:var(--side)}
 .err{color:#e5484d}
 .empty{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:560px}
-.empty h2{margin:0;font-size:1.7rem;letter-spacing:-.02em}
+.empty h2{font-size:2.6rem;flex:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .chips button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 14px}.chips button:hover{border-color:var(--me)}
 form{display:flex;gap:8px;padding:10px 20px calc(16px + env(safe-area-inset-bottom,0px));max-width:860px;width:100%;margin:0 auto}
@@ -60,6 +64,7 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 <aside id="side">
   <button class="new" id="new">+ Ny samtale</button>
   <div id="list"></div>
@@ -67,7 +72,7 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
   <button class="ghost" id="set">Indstillinger</button>
 </aside>
 <section>
-  <header><button class="ghost" id="menu">☰</button><div class="orb" id="orb"></div><h1 id="ttl">Min AI</h1></header>
+  <header><button class="ghost" id="menu">☰</button><div class="orb" id="orb"></div><h1 id="ttl">Hedegaard AI</h1></header>
   <div id="log"></div>
   <form id="f">
     <button type="button" class="mic" id="mic" title="Tal til AI'en" hidden>🎤</button>
@@ -77,7 +82,7 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
 </section>
 <dialog id="dlg"><form method="dialog" id="sf">
   <h2 style="margin:0 0 4px">Indstillinger</h2>
-  <label for="s-key">OpenAI-nøgle (gemmes kun i din browser)</label><input id="s-key" type="password" placeholder="sk-..." autocomplete="off">
+  <label>Farvetema</label><div id="sw" style="display:flex;gap:10px;flex-wrap:wrap"></div>
   <label for="s-name">AI'ens navn</label><input id="s-name">
   <label for="s-model">Model</label><select id="s-model"><option>gpt-4o-mini</option><option>gpt-4o</option><option>gpt-4.1-mini</option><option>gpt-4.1</option></select>
   <label for="s-per">Personlighed</label><select id="s-per"></select>
@@ -86,10 +91,20 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
   <div style="display:flex;gap:8px;margin-top:16px"><button class="go" style="padding:10px 18px">Gem</button><button type="button" class="ghost" id="clr">Slet alle samtaler</button></div>
 </form></dialog>
 <script>
+// ====== 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======
+const SHARED_KEY = "";
+// ==============================================================
 const $=id=>document.getElementById(id);
 const PER={"Standard":"Du er en hjælpsom, venlig AI-assistent. Svar kort og klart.","Kodehjælper":"Du er en erfaren udvikler. Giv fungerende kode i kodeblokke og forklar kort.","Sarkastisk ven":"Du er en vittig, let sarkastisk ven, men altid hjælpsom og aldrig ond.","Lærer":"Forklar alt enkelt, som til en nysgerrig 12-årig, med eksempler.","Forfatter":"Du er en kreativ forfatter med levende sprog og fantasi.","Egen":""};
-let S={chats:[],cur:null,cfg:{key:"",name:"Min AI",model:"gpt-4o-mini",per:"Standard",sys:"",t:0.7}};
+let S={chats:[],cur:null,cfg:{key:"",name:"Hedegaard AI",theme:"violet",model:"gpt-4o-mini",per:"Standard",sys:"",t:0.7}};
 try{const x=JSON.parse(localStorage.getItem("minai")||"null");if(x)S=Object.assign(S,x,{cfg:Object.assign(S.cfg,x.cfg)})}catch{}
+if(S.cfg.name==="Min AI")S.cfg.name="Hedegaard AI";
+const THEMES={violet:["Violet","#7c5cff","#ff7ab6","#ff9f45","#6a4cf5"],hav:["Hav","#00a8ff","#00e0c6","#7cf5a5","#0a86d6"],solnedgang:["Solnedgang","#ff5e62","#ff9966","#ffd166","#e04a3f"],skov:["Skov","#2fbf71","#a8e063","#f9d423","#1f8f55"],rose:["Rose","#ff4d9d","#c471ed","#ffa6c9","#d6247d"]};
+let TC=["#9b7cff","#ff7ab6"];
+function applyTheme(k){const t=THEMES[k]||THEMES.violet,r=document.documentElement.style;r.setProperty("--c1",t[1]);r.setProperty("--c2",t[2]);r.setProperty("--c3",t[3]);r.setProperty("--acc",t[3]);r.setProperty("--me",t[4]);TC=[t[1],t[2]]}
+function drawSw(){$("sw").innerHTML="";for(const k in THEMES){const t=THEMES[k],b=document.createElement("button");b.type="button";b.title=t[0];b.setAttribute("aria-label",t[0]);
+  b.style.cssText=`width:36px;height:36px;border-radius:50%;cursor:pointer;border:3px solid ${S.cfg.theme===k?"var(--ink)":"transparent"};background:linear-gradient(135deg,${t[1]},${t[2]},${t[3]})`;
+  b.onclick=()=>{S.cfg.theme=k;save();applyTheme(k);drawSw()};$("sw").append(b)}}
 const save=()=>{try{localStorage.setItem("minai",JSON.stringify(S))}catch{}};
 const cur=()=>S.chats.find(c=>c.id===S.cur);
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -111,18 +126,18 @@ function row(role,html,i){const r=document.createElement("div");r.className="row
   r.innerHTML=`<div class="msg"></div>`+(role==="user"?"":`<div class="acts"><button data-a="copy">Kopiér</button><button data-a="say">Læs op</button><button data-a="redo">Prøv igen</button></div>`);
   r.firstChild[role==="user"?"textContent":"innerHTML"]=html;$("log").append(r);$("log").scrollTop=1e9;return r.firstChild}
 function draw(){const c=cur();$("ttl").textContent=S.cfg.name;document.title=S.cfg.name;renderList();$("log").innerHTML="";
-  if(!c.msgs.length){$("log").innerHTML=`<div class="empty"><div class="orb big"></div><h2>Hej, jeg er ${esc(S.cfg.name)}</h2><div class="chips">${["Forklar sort hul simpelt","Skriv en joke om kaffe","Lav et Python-spil","Giv mig en madplan til ugen"].map(t=>`<button type="button" data-chip>${t}</button>`).join("")}</div></div>`;return}
+  if(!c.msgs.length){$("log").innerHTML=`<div class="empty"><div class="orb big"></div><h2>${esc(S.cfg.name)}</h2><p style="margin:0;color:var(--mut)">Din egen AI. Spørg om hvad som helst, eller tegn med /billede.</p><div class="chips">${["Forklar sort hul simpelt","Skriv en joke om kaffe","Lav et Python-spil","/billede en robot i solnedgang"].map(t=>`<button type="button" data-chip>${t}</button>`).join("")}</div></div>`;return}
   c.msgs.forEach((m,i)=>row(m.role,m.role==="user"?m.content:md(m.content),i))}
 
 let ac=null;
 function busy(b){$("orb").classList.toggle("busy",b);$("go").textContent=b?"Stop":"Send"}
 async function ask(){
-  const c=cur();if(!S.cfg.key){openSet();return}
+  const c=cur();const KEY=SHARED_KEY;if(!KEY)return noKey()
   const sys=S.cfg.per==="Egen"?S.cfg.sys:PER[S.cfg.per];
   const bub=row("assistant","…",c.msgs.length);let out="";ac=new AbortController();busy(true);
   try{
-    const r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+S.cfg.key},
-      body:JSON.stringify({model:S.cfg.model,temperature:+S.cfg.t,stream:true,messages:[{role:"system",content:sys||PER.Standard},...c.msgs.slice(-30)]})});
+    const r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+KEY},
+      body:JSON.stringify({model:S.cfg.model,temperature:+S.cfg.t,stream:true,messages:[{role:"system",content:"Du hedder "+S.cfg.name+". "+(sys||PER.Standard)},...c.msgs.slice(-30)]})});
     if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error?.message||"Fejl "+r.status)}
     const rd=r.body.getReader(),dec=new TextDecoder();let buf="";
     for(;;){const{done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});const ls=buf.split("\n");buf=ls.pop();
@@ -131,8 +146,18 @@ async function ask(){
   }catch(e){if(e.name!=="AbortError"){bub.innerHTML=`<span class="err">${esc(e.message)}</span>`}}
   if(out)c.msgs.push({role:"assistant",content:out});else bub.parentElement.remove();
   ac=null;busy(false);save()}
+function noKey(){row("assistant",'<span class="err">Der mangler en nøgle i koden. Sæt den ind i SHARED_KEY øverst i filen.</span>',-1)}
+async function img(text){const c=cur(),KEY=SHARED_KEY;if(!KEY)return noKey();
+  const q=text.replace(/^\/billede\s+/i,"");c.msgs.push({role:"user",content:text});draw();
+  const bub=row("assistant","Tegner…",c.msgs.length);busy(true);
+  try{const r=await fetch("https://api.openai.com/v1/images/generations",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+KEY},body:JSON.stringify({model:"dall-e-3",prompt:q,size:"1024x1024",response_format:"b64_json"})});
+    const d=await r.json();if(!r.ok)throw new Error(d.error?.message||"Fejl "+r.status);
+    const u="data:image/png;base64,"+d.data[0].b64_json;
+    bub.innerHTML=`<img src="${u}" alt="${esc(q)}" style="max-width:100%;border-radius:12px"><br><a download="hedegaard-ai.png" href="${u}">Download billede</a>`;
+    c.msgs.push({role:"assistant",content:"🖼 Billede: "+q})}catch(e){bub.innerHTML=`<span class="err">${esc(e.message)}</span>`}
+  busy(false);save()}
 function submit(text){const c=cur();if(!text.trim())return;if(!c.msgs.length){c.title=text.slice(0,36);renderList()}
-  c.msgs.push({role:"user",content:text});save();draw();ask()}
+  if(/^\/billede\s/i.test(text))return img(text);c.msgs.push({role:"user",content:text});save();draw();ask()}
 $("f").onsubmit=e=>{e.preventDefault();if(ac){ac.abort();return}const t=$("in").value;$("in").value="";submit(t)};
 $("in").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("f").requestSubmit()}};
 $("log").onclick=e=>{const t=e.target;
@@ -151,14 +176,20 @@ if(SR){$("mic").hidden=false;const r=new SR();r.lang="da-DK";r.interimResults=tr
   r.onresult=e=>{$("in").value=[...e.results].map(x=>x[0].transcript).join("")};
   r.onend=()=>{$("mic").classList.remove("on");if($("in").value.trim())$("f").requestSubmit()};
   $("mic").onclick=()=>{$("mic").classList.contains("on")?r.stop():(r.start(),$("mic").classList.add("on"))}}
-function openSet(){const c=S.cfg;$("s-key").value=c.key;$("s-name").value=c.name;$("s-model").value=c.model;$("s-per").value=c.per;$("s-sys").value=c.sys;$("s-t").value=c.t;$("tv").textContent=c.t;$("dlg").showModal()}
+function openSet(){const c=S.cfg;$("s-name").value=c.name;$("s-model").value=c.model;$("s-per").value=c.per;$("s-sys").value=c.sys;$("s-t").value=c.t;$("tv").textContent=c.t;drawSw();$("dlg").showModal()}
 $("s-per").innerHTML=Object.keys(PER).map(k=>`<option>${k}</option>`).join("");
 $("s-t").oninput=e=>$("tv").textContent=e.target.value;
 $("set").onclick=openSet;
-$("sf").onsubmit=()=>{S.cfg={key:$("s-key").value.trim(),name:$("s-name").value.trim()||"Min AI",model:$("s-model").value,per:$("s-per").value,sys:$("s-sys").value,t:$("s-t").value};save();draw()};
+$("sf").onsubmit=()=>{S.cfg={...S.cfg,name:$("s-name").value.trim()||"Hedegaard AI",model:$("s-model").value,per:$("s-per").value,sys:$("s-sys").value,t:$("s-t").value};save();draw()};
 $("clr").onclick=()=>{if(confirm("Slette alle samtaler?")){S.chats=[];newChat();$("dlg").close()}};
 if(!S.chats.length)newChat();else if(!cur())S.cur=S.chats[0].id;
-draw();if(!S.cfg.key)setTimeout(openSet,400);
+applyTheme(S.cfg.theme);draw();
+(()=>{const c=$("bg"),x=c.getContext("2d");let W,H,P=[];
+const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(70,W*H/16000|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))};
+addEventListener("resize",rs);rs();const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+(function t(){x.clearRect(0,0,W,H);for(const p of P){p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;x.globalAlpha=.7;x.fillStyle=TC[0];x.beginPath();x.arc(p.x,p.y,1.6,0,7);x.fill()}
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);if(d<130){x.globalAlpha=(1-d/130)*.35;x.strokeStyle=TC[1];x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.stroke()}}
+if(!still)requestAnimationFrame(t)})()})();
 </script>
 </body>
 </html>
