@@ -72,7 +72,7 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
   <button class="ghost" id="set">Indstillinger</button>
 </aside>
 <section>
-  <header><button class="ghost" id="menu">☰</button><div class="orb" id="orb"></div><h1 id="ttl">Hedegaard AI</h1></header>
+  <header><button class="ghost" id="menu">☰</button><div class="orb" id="orb"></div><h1 id="ttl">Hedegaard AI</h1><small style="color:var(--mut)">Gemini-version</small></header>
   <div id="log"></div>
   <form id="f">
     <button type="button" class="mic" id="mic" title="Tal til AI'en" hidden>🎤</button>
@@ -84,21 +84,23 @@ dialog label{display:block;margin:12px 0 4px;font-size:.88rem;color:var(--mut)}
   <h2 style="margin:0 0 4px">Indstillinger</h2>
   <label>Farvetema</label><div id="sw" style="display:flex;gap:10px;flex-wrap:wrap"></div>
   <label for="s-name">AI'ens navn</label><input id="s-name">
-  <label for="s-model">Model</label><select id="s-model"><option>gpt-4o-mini</option><option>gpt-4o</option><option>gpt-4.1-mini</option><option>gpt-4.1</option></select>
+  <label for="s-model">Model</label><select id="s-model"><option value="gemini-flash-latest">Gemini Flash (hurtig)</option><option value="gemini-flash-lite-latest">Gemini Flash-Lite (hurtigst)</option></select>
   <label for="s-per">Personlighed</label><select id="s-per"></select>
   <label for="s-sys">Egen systemprompt (bruges ved “Egen”)</label><textarea id="s-sys" rows="3"></textarea>
   <label for="s-t">Kreativitet: <span id="tv"></span></label><input id="s-t" type="range" min="0" max="1.5" step="0.1" style="padding:0">
   <div style="display:flex;gap:8px;margin-top:16px"><button class="go" style="padding:10px 18px">Gem</button><button type="button" class="ghost" id="clr">Slet alle samtaler</button></div>
 </form></dialog>
 <script>
-// ============
-const SHARED_KEY = "AQ.Ab8RN6I-_TncE7FR5o9NWPvUXkdnZmUwR1TDlTqYBh6-1wJBug";
+// ====== SÆT DIN GRATIS GEMINI-NØGLE HER (mellem citationstegnene) ======
+// Hent den på https://aistudio.google.com/apikey
+const SHARED_KEY = "AQ.Ab8RN6J4_VdjQMTkW1L002QqJxO-4_5aEnJVtZTv5v2t0G9T5A";
 // ==============================================================
 const $=id=>document.getElementById(id);
 const PER={"Standard":"Du er en hjælpsom, venlig AI-assistent. Svar kort og klart.","Kodehjælper":"Du er en erfaren udvikler. Giv fungerende kode i kodeblokke og forklar kort.","Sarkastisk ven":"Du er en vittig, let sarkastisk ven, men altid hjælpsom og aldrig ond.","Lærer":"Forklar alt enkelt, som til en nysgerrig 12-årig, med eksempler.","Forfatter":"Du er en kreativ forfatter med levende sprog og fantasi.","Egen":""};
-let S={chats:[],cur:null,cfg:{key:"",name:"Hedegaard AI",theme:"violet",model:"gpt-4o-mini",per:"Standard",sys:"",t:0.7}};
+let S={chats:[],cur:null,cfg:{key:"",name:"Hedegaard AI",theme:"violet",model:"gemini-flash-latest",per:"Standard",sys:"",t:0.7}};
 try{const x=JSON.parse(localStorage.getItem("minai")||"null");if(x)S=Object.assign(S,x,{cfg:Object.assign(S.cfg,x.cfg)})}catch{}
 if(S.cfg.name==="Min AI")S.cfg.name="Hedegaard AI";
+if(!/^gemini/.test(S.cfg.model))S.cfg.model="gemini-flash-latest";
 const THEMES={violet:["Violet","#7c5cff","#ff7ab6","#ff9f45","#6a4cf5"],hav:["Hav","#00a8ff","#00e0c6","#7cf5a5","#0a86d6"],solnedgang:["Solnedgang","#ff5e62","#ff9966","#ffd166","#e04a3f"],skov:["Skov","#2fbf71","#a8e063","#f9d423","#1f8f55"],rose:["Rose","#ff4d9d","#c471ed","#ffa6c9","#d6247d"]};
 let TC=["#9b7cff","#ff7ab6"];
 function applyTheme(k){const t=THEMES[k]||THEMES.violet,r=document.documentElement.style;r.setProperty("--c1",t[1]);r.setProperty("--c2",t[2]);r.setProperty("--c3",t[3]);r.setProperty("--acc",t[3]);r.setProperty("--me",t[4]);TC=[t[1],t[2]]}
@@ -126,7 +128,7 @@ function row(role,html,i){const r=document.createElement("div");r.className="row
   r.innerHTML=`<div class="msg"></div>`+(role==="user"?"":`<div class="acts"><button data-a="copy">Kopiér</button><button data-a="say">Læs op</button><button data-a="redo">Prøv igen</button></div>`);
   r.firstChild[role==="user"?"textContent":"innerHTML"]=html;$("log").append(r);$("log").scrollTop=1e9;return r.firstChild}
 function draw(){const c=cur();$("ttl").textContent=S.cfg.name;document.title=S.cfg.name;renderList();$("log").innerHTML="";
-  if(!c.msgs.length){$("log").innerHTML=`<div class="empty"><div class="orb big"></div><h2>${esc(S.cfg.name)}</h2><p style="margin:0;color:var(--mut)">Din egen AI. Spørg om hvad som helst, eller tegn med /billede.</p><div class="chips">${["Forklar sort hul simpelt","Skriv en joke om kaffe","Lav et Python-spil","/billede en robot i solnedgang"].map(t=>`<button type="button" data-chip>${t}</button>`).join("")}</div></div>`;return}
+  if(!c.msgs.length){$("log").innerHTML=`<div class="empty"><div class="orb big"></div><h2>${esc(S.cfg.name)}</h2><p style="margin:0;color:var(--mut)">Din egen AI. Spørg om hvad som helst.</p><div class="chips">${["Forklar sort hul simpelt","Skriv en joke om kaffe","Lav et Python-spil"].map(t=>`<button type="button" data-chip>${t}</button>`).join("")}</div></div>`;return}
   c.msgs.forEach((m,i)=>row(m.role,m.role==="user"?m.content:md(m.content),i))}
 
 let ac=null;
@@ -134,17 +136,19 @@ function busy(b){$("orb").classList.toggle("busy",b);$("go").textContent=b?"Stop
 async function ask(){
   const c=cur();const KEY=SHARED_KEY;if(!KEY)return noKey()
   const sys=S.cfg.per==="Egen"?S.cfg.sys:PER[S.cfg.per];
-  const bub=row("assistant","…",c.msgs.length);let out="";ac=new AbortController();busy(true);
+  const bub=row("assistant","…",c.msgs.length);let out="",failed=false;ac=new AbortController();busy(true);
   try{
-    const r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+KEY},
-      body:JSON.stringify({model:S.cfg.model,temperature:+S.cfg.t,stream:true,messages:[{role:"system",content:"Du hedder "+S.cfg.name+". "+(sys||PER.Standard)},...c.msgs.slice(-30)]})});
+    const body=JSON.stringify({systemInstruction:{parts:[{text:"Du hedder "+S.cfg.name+". "+(sys||PER.Standard)}]},generationConfig:{temperature:+S.cfg.t},contents:c.msgs.slice(-30).map(m=>({role:m.role==="user"?"user":"model",parts:[{text:m.content}]}))});
+    let r;for(const m of [S.cfg.model,...["gemini-flash-latest","gemini-3.5-flash","gemini-flash-lite-latest"].filter(x=>x!==S.cfg.model)]){
+      r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":streamGenerateContent?alt=sse",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json","x-goog-api-key":KEY},body});
+      if(r.status!==404)break}
     if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.error?.message||"Fejl "+r.status)}
     const rd=r.body.getReader(),dec=new TextDecoder();let buf="";
     for(;;){const{done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});const ls=buf.split("\n");buf=ls.pop();
       for(const l of ls){if(!l.startsWith("data: "))continue;const d=l.slice(6).trim();if(d==="[DONE]")continue;
-        try{const t=JSON.parse(d).choices[0].delta.content;if(t){out+=t;bub.innerHTML=md(out);$("log").scrollTop=1e9}}catch{}}}
-  }catch(e){if(e.name!=="AbortError"){bub.innerHTML=`<span class="err">${esc(e.message)}</span>`}}
-  if(out)c.msgs.push({role:"assistant",content:out});else bub.parentElement.remove();
+        try{const t=JSON.parse(d).candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("");if(t){out+=t;bub.innerHTML=md(out);$("log").scrollTop=1e9}}catch{}}}
+  }catch(e){if(e.name!=="AbortError"){failed=true;bub.innerHTML=`<span class="err">${esc(e.message==="Failed to fetch"?"Kunne ikke nå Google Gemini. Tjek internetforbindelsen.":e.message)}</span>`}}
+  if(out)c.msgs.push({role:"assistant",content:out});else if(!failed)bub.parentElement.remove();
   ac=null;busy(false);save()}
 function noKey(){row("assistant",'<span class="err">Der mangler en nøgle i koden. Sæt den ind i SHARED_KEY øverst i filen.</span>',-1)}
 async function img(text){const c=cur(),KEY=SHARED_KEY;if(!KEY)return noKey();
@@ -157,7 +161,7 @@ async function img(text){const c=cur(),KEY=SHARED_KEY;if(!KEY)return noKey();
     c.msgs.push({role:"assistant",content:"🖼 Billede: "+q})}catch(e){bub.innerHTML=`<span class="err">${esc(e.message)}</span>`}
   busy(false);save()}
 function submit(text){const c=cur();if(!text.trim())return;if(!c.msgs.length){c.title=text.slice(0,36);renderList()}
-  if(/^\/billede\s/i.test(text))return img(text);c.msgs.push({role:"user",content:text});save();draw();ask()}
+  c.msgs.push({role:"user",content:text});save();draw();ask()}
 $("f").onsubmit=e=>{e.preventDefault();if(ac){ac.abort();return}const t=$("in").value;$("in").value="";submit(t)};
 $("in").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("f").requestSubmit()}};
 $("log").onclick=e=>{const t=e.target;
